@@ -1,6 +1,6 @@
  -------------------------------
 |                               |
-|  MO-PhyTree - README    |
+|  MO-PhyTree - README          |
 |                               |
  -------------------------------
 
@@ -35,7 +35,7 @@ Bio++ also requeries the CMake utility and Pll requeries Autoreconf utility.
 =======================================================================================
 
 =======================================================================================
-2. Installing MO-Phylogenetics
+2. Installing MO-PhyTree
 =======================================================================================
 
 Copy the compressed file to the location where you want to install MO-Phylogenetics and
