@@ -1,6 +1,6 @@
  -------------------------------
 |                               |
-|  MO-Phylogenetics - README    |
+|  MO-PhyTree - README    |
 |                               |
  -------------------------------
 
@@ -19,11 +19,11 @@ TABLE OF CONTENTS
 1. Requirements 
 =======================================================================================
 
-MO-Phylogenetics has been developed in Unix machines (Ubuntu and MacOS X) as well as in
+MO-PhyTree has been developed in Unix machines (Ubuntu and MacOS X) as well as in
 Windows (MinGW) using the G++ (4.4.7) compiler. The make utility has been used to compile the
 software package.
 
-MO-Phylogenetics is based on jMetalCpp and requires install two frameworks:
+MO-PhyTree is based on jMetalCpp and requires install two frameworks:
 
 1) Bio++: a set of C++ libraries for Bioinformatics, including sequence analysis, phylogenetics, molecular evolution and population genetics. Home Page:  http://biopp.univ-montp2.fr/
 
@@ -49,15 +49,15 @@ Add the path of the new libraries installed in your .bashrc file
 
 For Bio++:
 
-   export CPATH=$CPATH:MOPhylogenetics_path/lib/Bpp/include    
-   export LIBRARY_PATH=$LIBRARY_PATH:MOPhylogenetics_path/lib/Bpp/lib   
-   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:MOPhylogenetics_path/lib/Bpp/lib  
+   export CPATH=$CPATH:MOPhyTree_path/lib/Bpp/include    
+   export LIBRARY_PATH=$LIBRARY_PATH:MOPhyTree_path/lib/Bpp/lib   
+   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:MOPhyTree_path/lib/Bpp/lib  
 
 For Pll:
 
-   export CPATH=$CPATH:MOPhylogenetics_path/lib/Pll/src/include    
-   export LIBRARY_PATH=$LIBRARY_PATH:MOPhylogenetics_path/lib/Pll/src/lib   
-   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:MOPhylogenetics_path/lib/Pll/src/lib  
+   export CPATH=$CPATH:MOPhyTree_path/lib/Pll/src/include    
+   export LIBRARY_PATH=$LIBRARY_PATH:MOPhyTree_path/lib/Pll/src/lib   
+   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:MOPhyTree_path/lib/Pll/src/lib  
 
 =======================================================================================
 
@@ -69,11 +69,11 @@ For Pll:
 The main binary is in the subfolder 'bin'. Enter this folder to execute MO-Phylogenetics.
 	
   % cd bin
-  % ./MOPhylogenetics param= parametersfile
+  % ./MOPhyTree param= parametersfile
 
 The parameterfile is the filename wich has all the parameters requeried to execute the program. For example, to execute the program using one of our test problem 500 sequences dataset, type the following command:
 	
-  %./MOPhylogenetics param=parameters/params500.txt
+  %./MOPhyTree param=parameters/params500.txt
 
 The parameters to solve the state-of-the-art problems are defined in some files saved into the paramaters folder, and also are included the datasets (nucleotide sequences), partition model file and the initial user trees perfomanced by a bootstrap techniques using PhyML and DNAPars software. 
 
