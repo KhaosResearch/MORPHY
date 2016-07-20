@@ -1,0 +1,117 @@
+# ----------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------
+#                                     Metaheuristic Parameters
+# ----------------------------------------------------------------------------------------
+#Experimennt ID
+#experimentid = 25
+
+DATA= /home/phylo/mo-phylogenetics/data
+
+populationsize = 100
+maxevaluations = 3000
+bootstrapSize	=101 
+umbral=0.15
+
+intervalupdateparameters = 100 #0 NO
+NumPreliminarResults=100
+printtrace 	= true  
+printbestscores = true
+
+
+#**************** Genetic Operators **************** 
+
+# ********* Selection **********
+selection.method=binarytournament
+
+
+# ********* Mutation **********
+
+#NNI, SPR, TRB
+mutation.method = NNI
+mutation.probability = 0.2
+mutation.distributionindex = 1
+
+# ----------------------------------------------------------------------------------------
+#                                     Phylogenetic Parameters
+# ----------------------------------------------------------------------------------------
+
+
+# *********** Sequences ***********
+#DNA, RNA or Protein
+alphabet=DNA 
+
+# The sequence file to use (sequences must be aligned!)
+sequencefile=$(DATA)/sequences/218.txt
+
+# The alignment format:  order=sequential/interleaved type=extended/classic
+input.sequence.format=Phylip(order=sequential, type=extended, split=spaces)
+
+#input.sequence.format=Fasta(charsbyline=100, checksequencenames=true, extended=false,strictsequencenames=true)
+
+input.sequence.print=false
+
+#***************** PLL Parameters ******************
+
+partitionmodelfile=$(DATA)/model/218.model
+
+# *********** Initial Population Trees ***********
+
+# user, random or stepwise
+init.population = user
+init.population.tree.file = $(DATA)/inputusertrees/bootstrap1000_218
+init.population.tree.format = Newick
+
+# *********** Model of rate heterogeneity ***********
+
+#GAMMA CAT
+rateheterogeneity_model=GAMMA
+
+# ********** Substitution Model  ***********
+model = GTR+G
+
+model.frequences = user
+model.piA = 0.2405
+model.piC = 0.2204 
+model.piG = 0.2865 
+model.piT = 0.2526 
+
+#GTR relative rate parameters 
+model.AC = 0.9324
+model.AG = 2.2911
+model.AT = 1.1810
+model.CG = 1.1276
+model.CT = 3.4439
+model.GT = 1.00000
+
+# ********** Distribution Gamma  ***********
+rate_distribution = Gamma
+rate_distribution.ncat = 4
+rate_distribution.alpha = 0.5450
+
+# ********** Phylogenetic Optimization  ***********
+#strategies h2 y h1
+optimization.method = h2
+optimization.method.perc = 0.5
+
+optimization.ppn.numiterations = 1000
+optimization.ppn.maxsprbestmoves = 100
+
+optimization.pll.percnodes = 0.4
+optimization.pll.mintranv = 1
+optimization.pll.maxtranv = 30
+optimization.pll.newton3sprbranch = false
+
+# ********** Branch Lenght Optimization ***********
+bl_optimization.starting = true
+bl_optimization.starting.maxitevaluation=1000
+
+bl_optimization = false
+bl_optimization.maxitevaluation=100
+
+bl_optimization.final = true
+bl_optimization.final.maxitevaluation=1000
+
+# ********** Evolutionary Model Optimization ***********
+model_optimization = false
+model_optimization.tolerance =0.001
+

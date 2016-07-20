@@ -1,0 +1,1341 @@
+//  PhylogeneticMutation_PLL.cpp
+//
+//  Author:
+//       Cristian G. Zambrano Vega <cristian_uteq@hotmail.com>
+//
+//  Copyright (c) 2011 Antonio J. Nebro, Juan J. Durillo
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#include <PhylogeneticMutation_PLL.h>
+
+
+/**
+ * Constructor
+ * Creates a new instance of the SPR mutation operator
+ */
+PhylogeneticMutation_PLL::PhylogeneticMutation_PLL(map<string, void *> parameters)
+: Mutation(parameters) {
+
+   mutationProbability_=0;  Metodo="NNI";
+    
+   string NumExp = *(string *) parameters["NumExp"];
+   if (parameters["metodo"] != NULL)              Metodo = *(string *) parameters["metodo"];
+   if (parameters["probability"] != NULL)         mutationProbability_ = *(double *) parameters["probability"];
+   if (parameters["NumIteracionesPPN"] != NULL)   NumIteraciones  = *(int *) parameters["NumIteracionesPPN"];
+   
+   
+   if (parameters["optramas"] != NULL)            OptRamas  = *(bool *) parameters["optramas"];
+   if (parameters["MetodoOptRamas"] != NULL)      MetodoOptRamas  = *(string *) parameters["MetodoOptRamas"];
+   if (parameters["NumIterOptRamas"] != NULL)     NumIterOptRamas  = *(int *) parameters["NumIterOptRamas"];
+   if (parameters["TolerenciaOptRamas"] != NULL)  TolerenciaOptRamas  = *(double *) parameters["TolerenciaOptRamas"];
+
+   if (parameters["OptimizacionSubstModel"] != NULL)  OptimizacionSubstModel  = *(bool *) parameters["OptimizacionSubstModel"];
+   if (parameters["MetodoOptimizacionSubstModel"] != NULL) MetodoOptimizacionSubstModel  = *(string *) parameters["MetodoOptimizacionSubstModel"];
+   if (parameters["NumIterOptSubstModel"] != NULL)     NumIterOptSubstModel  = *(int *) parameters["NumIterOptSubstModel"];
+   if (parameters["TolerenciaOptSubstModel"] != NULL)  TolerenciaOptSubstModel  = *(double *) parameters["TolerenciaOptSubstModel"];
+
+
+   if (parameters["OptimizacionRateDist"] != NULL)  OptimizacionRateDist  = *(bool *) parameters["OptimizacionRateDist"];
+   if (parameters["MetodoOptRateDistB"] != NULL)    MetodoOptRateDistB  = *(string *) parameters["MetodoOptRateDistB"];
+   
+   
+   
+   random_gsl = gsl_rng_alloc(gsl_rng_default);
+   randomgsl_alpha = 500;
+   
+   
+   comparator = new DominanceComparator();
+   
+   //std::strcpy(NumExp,"ComportamientoML");
+   ComportamientoML.open("ComportamientoML.txt"); ComportamientoTime.open("ComportamientoTime.txt");
+   ComportamientoMP.open("ComportamientoMeP.txt"); ComportamientoTimePar.open("ComportamientoTimePar.txt");
+  
+   
+} // PhylogeneticMutation_PLL
+
+
+
+void PhylogeneticMutation_PLL::printParameters(){
+   
+   cout << "************** Mutation Operator Parameters ************ " << endl;
+   cout << "mutationProbability: " << mutationProbability_ << endl;
+  
+   cout << "Método de Mutación: " <<  Metodo << endl;
+   cout << "Número de Iteraciones  " << NumIteraciones << endl;
+   
+   
+   cout << "Optimización Ramas:  " <<  OptRamas << endl;
+   if(OptRamas){
+       cout << "Método Optimización Ramas: " <<  MetodoOptRamas << endl;
+       cout << "Num Iteraciónes Opt. Ramas : " <<  NumIterOptRamas << endl;
+       cout << "Tolerencia Opt. Ramas : " <<  TolerenciaOptRamas << endl;
+   }
+   
+   cout << "Optimización Substitution Model:  " <<  OptimizacionSubstModel << endl;
+   if(OptimizacionSubstModel){
+       cout << "Método Optimización Substitution Model: " <<  MetodoOptimizacionSubstModel << endl;
+       cout << "Num Iteraciónes Opt. Substitution Model: " <<  NumIterOptSubstModel << endl;
+       cout << "Tolerencia Opt. Substitution Model : " <<  TolerenciaOptSubstModel << endl;
+   }
+   
+    cout << "Optimización Rate Distribution:  " <<  OptimizacionRateDist << endl;
+   if(OptimizacionRateDist){
+       cout << "Método Optimización Rate Distribution: " <<  MetodoOptRateDistB << endl;
+   }
+   
+   cout << endl;
+}
+
+/**
+ * Destructor
+ */
+PhylogeneticMutation_PLL::~PhylogeneticMutation_PLL() { 
+
+        ComportamientoML.close();	ComportamientoTime.close();
+        ComportamientoMP.close();	ComportamientoTimePar.close();
+        
+} // ~PhylogeneticMutation_PLL
+
+
+/**
+ * Perform the mutation operation
+ * @param probability Mutation probability
+ * @param solution The solution to mutate
+ */
+void * PhylogeneticMutation_PLL::doMutation(double mutationProbability_, Solution *solution) {
+    
+    if ( PseudoRandom::randDouble() <= mutationProbability_) {
+                 
+                if(Metodo=="h1")        OptimizacionHibrida(solution);
+                else if(Metodo=="h2")   OptimizacionHibrida2(solution);
+                //PPNOptimiz(solution); 
+                /*else if(Metodo=="nni") NNIandBranchMutate(solution); 
+                else if(Metodo=="spr") SPRPhyloMOEA(solution);
+                else if(Metodo=="trb") TBR(solution);
+                else   NNIMoves(solution); */
+        
+    }
+
+    //if(OptRamas || OptModeloyTasaDist)  OptimizarRamasyParamModeloSust(solution);
+
+
+} // doMutation
+
+void PhylogeneticMutation_PLL::OptimizacionHibrida(Solution * solution){
+    Phylogeny * problem_ = (Phylogeny *) solution->getProblem();
+    //cout <<"============================================================" << endl;
+    //cout << "Parsimonia I " <<  problem_->getParsimony(solution)  << "  Likelihood I " << problem_->getLikelihood(solution) << endl;
+    double Lk;
+    pair<double , boolean> Par; 
+    
+    Par = PPNSearch(solution,100);
+    
+    if(Par.second){  //Si generó cambio de Topología
+          Lk= PLLOptimizarRamas2(solution, 64);  
+    } else { 
+         //cout << "No Hubo Cambios Topologicos Par " << endl;
+         Lk=problem_->getLikelihood(solution);
+    }
+
+   problem_->evaluate(solution,Par.first,Lk);  //Solo para registrar y print best found scores
+  
+ //cout << "Parsimonia F " <<  Par.first << "  Likelihood F " << Lk  << endl;
+ //cout <<"============================================================" << endl; 
+
+}
+
+void PhylogeneticMutation_PLL::OptimizacionHibrida2(Solution * solution){
+   Phylogeny * problem_ = (Phylogeny *) solution->getProblem();
+  
+    double Lk, Par;
+    pair<double , boolean> Res; 
+    
+    //cout <<"============================================================" << endl;
+   //cout << "Parsimonia I " <<  problem_->getParsimony(solution)  << "  Likelihood I " << problem_->getLikelihood(solution) << endl;
+
+    if (PseudoRandom::randDouble() <= 0.5) {
+        
+        Res=PPNSearch(solution,1000);
+        Par = Res.first;
+        Lk=problem_->getLikelihood(solution);
+        
+//        if(Res.second){  //Si hubo cmabio topologico
+//               Lk= PLLOptimizarRamas2(solution, 32);  //Optimiza Ramas
+//         }else{
+//               Lk=problem_->getLikelihood(solution);
+//         }
+        
+    }else {
+        
+         Res = PLLSearch(solution);
+         Par =  problem_->getParsimony(solution);
+         Lk = Res.first;
+         
+//         if(Res.second){  //Si hubo cmabio topologico
+//                Lk= PLLOptimizarRamas2(solution, 32);  //Optimiza Ramas
+//         }else{
+//                Lk = Res.first;
+//         }
+    }
+    
+  problem_->evaluate(solution,Par,Lk);  //Solo para registrar y print best found scores
+  
+ //cout << "Parsimonia F " <<  Par << "  Likelihood F " << Lk  << endl;
+ //cout <<"============================================================" << endl; 
+
+}
+
+boolean esHoja(int number, int maxTips)
+{
+  if(number <= maxTips)
+    return PLL_TRUE;
+  else
+    return PLL_FALSE;
+}
+
+int PhylogeneticMutation_PLL::PLLgetMaxDeep(pllInstance * tr, nodeptr p){
+  int d1,d2;
+  
+  d1= PLLgetDeep(tr,p);
+  d2= PLLgetDeep(tr,p->back);
+  if(d1>d2)  return d1; else return d2;
+}
+
+int PhylogeneticMutation_PLL::PLLgetDeep(pllInstance * tr, nodeptr p){
+  nodeptr  p1, p2;
+  int d1,d2;
+  if (!esHoja (p->number, tr->mxtips)) {
+     d1= PLLgetDeep(tr,p->next->back);
+     d2= PLLgetDeep(tr,p->next->next->back);
+     if(d1>d2)
+         return d1+1;
+     else 
+         return d2+1;
+ }else
+     return 1;
+     
+}
+
+pair<double,boolean>  PhylogeneticMutation_PLL::PLLSearch(Solution *  solution){
+  
+  pair<double,boolean> R;
+  
+  PhyloTree * Pt = (PhyloTree*) solution->getDecisionVariables()[0];
+  Phylogeny * problem_ = (Phylogeny *) solution->getProblem();
+  TreeTemplate<Node> * tree = Pt->getTree();
+     
+  pllInstance * tr;
+  pllNewickTree * newick;
+  partitionList * partitions;
+  pllRearrangeList * rearrangeList;
+
+ 
+  clock_t t_ini = clock();
+
+  tr = pllCreateInstance (&problem_->attr);
+  partitions = pllPartitionsCommit (problem_->partitionInfo, problem_->alignmentData);
+  
+  
+  string treenewick = TreeTemplateTools::treeToParenthesis(*tree);
+  newick = pllNewickParseString	(treenewick.c_str());
+  if (!newick){ cout << "PLLSearch, Error while parsing newick tree  " << endl;	exit(-1); }
+
+  if (!pllValidateNewick (newick)) { cout << "PLLSearch, Invalid phylogenetic tree:" << endl << treenewick << endl;	exit(-1); }
+
+  pllTreeInitTopologyNewick (tr, newick, PLL_FALSE);
+  if (!pllLoadAlignment (tr, problem_->alignmentData, partitions)) {  cout << "PLLSearch, Incompatible tree/alignment combination" << endl;	exit(-1); }
+
+ 
+ pllInitModel(tr, partitions);
+
+ double q[6] = {Pt->AC,Pt->AG,Pt->AT,Pt->CG,Pt->CT,Pt->GT}; 
+ double f[4] = {Pt->piA,Pt->piC,Pt->piG,Pt->piT}; 
+
+ pllSetFixedAlpha(Pt->alpha , 0, partitions, tr);  
+ pllSetFixedSubstitutionMatrix(q, 6, 0, partitions, tr);
+ pllSetFixedBaseFrequencies(f, 4, 0, partitions, tr);
+
+ pllEvaluateLikelihood(tr, partitions, tr->start, PLL_TRUE, PLL_FALSE);
+ double lk1, lk2;
+ lk1 = lk2 = R.first= tr->likelihood;
+ R.second = false;
+ 
+ 
+  tr->thoroughInsertion = PLL_FALSE;
+  
+  nodeptr NodoInicial;
+  int MaxNodePos=2*(tr->mxtips -1);
+  int MaxD;
+  
+  for(int k=tr->mxtips + 1;k<=MaxNodePos;k++){
+       if ( PseudoRandom::randDouble() <= 0.2) {
+         
+         rearrangeList = pllCreateRearrangeList (1);
+           
+         //cout << "Nodo Seleccionado " << k << " de " << MaxNodePos << endl;
+         NodoInicial = tr->nodep[k];
+         //MaxD = PLLgetMaxDeep(tr,NodoInicial);
+          
+         pllRearrangeSearch (tr, partitions, PLL_REARRANGE_SPR, NodoInicial,  1,  100,  rearrangeList);  
+         pllEvaluateLikelihood (tr, partitions, tr->start, PLL_FALSE, PLL_FALSE); //Se aplican cambios en el scor
+         
+         if(rearrangeList->entries > 0 ) {
+                pllRearrangeCommit (tr, partitions, &(rearrangeList->rearr[0]), PLL_TRUE);
+                pllEvaluateLikelihood (tr, partitions, tr->start, PLL_FALSE, PLL_FALSE); //Se aplican cambios en el score
+         
+                 lk2 = tr->likelihood;
+                 R.second = true;
+                 //cout << "LK1 " << lk1 << " Arr " << rearrangeList->rearr[0].likelihood << " NW " << lk2 << " Mejor " << lk1-lk2 << endl;
+                 if((lk1-lk2 ) > 0){
+                          printf ("ERROR  Diferencias POSITIVAS Log-likelihood %f - %f \n", lk1 , tr->likelihood); 
+                         exit(-1);
+                }
+         }
+         
+         pllDestroyRearrangeList (&rearrangeList);
+         //cout << "Nodo Seleccionado " << k << " de " << MaxNodePos << " tr.likelid " << tr->likelihood << endl;
+       }
+  }
+       
+  delete tree;
+  pllTreeToNewick(tr->tree_string, tr, partitions, tr->start->back, true, true, false, false, false, 1, false, false);
+  string arbol(tr->tree_string);   //fprintf(stderr, "%s\n", tr->tree_string );
+  tree = TreeTemplateTools::parenthesisToTree(arbol);
+  Pt->setTree(tree);
+   
+  pllNewickParseDestroy (&newick);
+  pllPartitionsDestroy (tr, &partitions);
+  pllDestroyInstance (tr);
+  
+ 
+  cout << " Tiempo " << ((double) (clock() - t_ini))/ CLOCKS_PER_SEC  << endl;
+  
+ ComportamientoTime <<  ((double) (clock() - t_ini))/ CLOCKS_PER_SEC << endl; 
+ ComportamientoML << lk1-lk2  << endl; 
+ 
+ R.first = lk2; 
+ return R;
+}
+
+
+pair<double,boolean>  PhylogeneticMutation_PLL::PPNSearch(Solution * solution, int NumMaxMovs){
+  
+  pair<double,boolean> R;
+  
+  int NumApliedMovSPR=0; 
+  vector< pair<int , int > > MovSPRPar; //Almacena todos los MovsSPR ya hechos entres ID1 y ID2
+  pair<int , int> IDs;        //Mejor Mov SPR ID1 ID2 
+    
+  clock_t t_ini = clock();
+  
+    PhyloTree * Pt = (PhyloTree*) solution->getDecisionVariables()[0];
+    Phylogeny * problem_ = (Phylogeny *) solution->getProblem();
+    TreeTemplate<Node> * tree = Pt->getTree();
+    int NextNodeID = tree->getNextId();
+    
+    //DRTreeParsimony usado para denotar los posibles buenos moviemitos basads en Parsimonia
+    DRTreeParsimonyScore * Par =	new DRTreeParsimonyScore(*tree, *problem_->getSites() ,false,true);
+    TreeTemplate<Node> * treeP = Par->getTreeP_();
+    vector<Node*> nodes = treeP->getNodes();
+    int NextNodeIDPar = treeP->getNextId();
+    
+    int ParsimonyScore;
+    int MenorParsimonia, Par1;
+    MenorParsimonia = Par1 = R.first =  Par->getScore();
+    R.second = false;
+    
+    Node * Root;
+    Node* Nodo1;
+    Node* Nodo2;
+
+  int MaxNivel, dmax,d,up,down,u, Iteracion;
+  bool b;
+  
+  pair< pair<double *, int *>, Node *> pPar;
+  pair<double *, int *> pnPar;
+  
+  Root=treeP->getRootNode();
+  MaxNivel=0;
+  for(int k=0;k<Root->getNumberOfSons();k++){      MaxNivel+= getNivel(Root->getSon(k));   }
+
+  dmax =MaxNivel; 
+  for(Iteracion=0; Iteracion<NumIteraciones;Iteracion++){
+      
+        if (Iteracion%(NumIteraciones/MaxNivel+1)==0) dmax--;
+      
+        if(dmax < 3) dmax=3;
+        else if(dmax > MaxNivel) dmax=MaxNivel;
+
+        do{
+              b=true;
+              do {
+                  Nodo1 =  nodes[rand()%nodes.size()];
+                  if(Nodo1->hasFather()){
+                      if(Nodo1->getFather()->hasFather()) b=false;
+                  }
+              }while(b);
+
+              d=rand()%dmax+1; //Distancia entre 1 y DMax
+              u=up=rand()%d+2; //Subir desde 2 a D
+
+              Nodo2=Nodo1;
+              Node* prev;
+              while(Nodo2->hasFather() && (u>0)) {
+                 prev=Nodo2;
+                 Nodo2=Nodo2->getFather();
+                 u--;
+              }
+
+              down=d+2-up-u;
+
+            while(Nodo2->getNumberOfSons()>1 && (down>0)) {
+                  Nodo2 = Nodo2->getSon(rand()% Nodo2->getNumberOfSons());
+                  if(Nodo1==Nodo2) {
+                      Nodo2=Nodo2->getFather();
+                  }else  down --;
+            }
+         }while(!SPRvalide (Nodo1,Nodo2));
+         
+         
+         
+         if(!isMov(MovSPRPar,Nodo1->getId() , Nodo2->getId())){
+      
+             IDs.first=Nodo1->getId();         IDs.second=Nodo2->getId();
+             MovSPRPar.push_back(IDs);
+             
+            pPar=SPR(Nodo1, Nodo2, NextNodeIDPar); //Sobrr TreeParsimonia
+            pnPar = pPar.first;
+
+            Par->topologyChangeTested(*new TopologyChangeEvent());
+
+            ParsimonyScore = Par->getScore();
+            if( ParsimonyScore < MenorParsimonia){
+
+                SPR(tree->getNode(Nodo1->getId()),tree->getNode(Nodo2->getId()), NextNodeID);
+
+                MenorParsimonia = ParsimonyScore;
+                R.second = true;
+                
+                if(++NumApliedMovSPR>NumMaxMovs) Iteracion=NumIteraciones+1; //exit For Iteraciones
+
+            }else {            
+                 double *b = pnPar.first;
+                if(b[0]==1)
+                   SPR(Nodo1,pPar.second,b);
+                else
+                   SPRreverse(Nodo1,pPar.second,b,NextNodeIDPar);
+            }
+            delete[] pnPar.first;       delete[] pnPar.second;
+       }
+  }
+  
+  delete Par;
+  
+  
+ ComportamientoTimePar <<  ((double) (clock() - t_ini))/ CLOCKS_PER_SEC << endl; 
+ ComportamientoMP << Par1 - MenorParsimonia   << endl; 
+
+ R.first = (double) MenorParsimonia;
+ return R; 
+}
+
+
+bool PhylogeneticMutation_PLL::isMov(vector< pair<int , int > > vIDS, int IDN1, int IDN2){
+    pair<int , int > eIDS;
+     
+    for (int i=0;i<vIDS.size();i++){
+         eIDS = vIDS[i];
+         if(eIDS.first == IDN1 and eIDS.second == IDN2)            return true;
+    }
+    return false;
+}
+
+pair< pair<double *, int *>, Node *> PhylogeneticMutation_PLL::SPR(Node * Nodo1, Node * Nodo2, int &NextIDNode){
+    
+    pair<pair<double *, int *>,Node*> p;
+    int PosNodo;
+    double distancetofather=0;
+    double * b = new double[5]; //0 tipo, 1 brLenHermano, 2 brLenNodo2, 3 brLenNod1, 4 brLenPadre
+    int * IDs = new int[3];  //0 IDNodoPadre, 1 IDNodo1, 2 IDNodo2
+    Node * Padre;
+    Node * Padre2;
+    Node * GP;
+    Node * Hermano;
+  
+    Padre=Nodo1->getFather();
+    if (Nodo1->hasDistanceToFather()) b[3] = Nodo1->getDistanceToFather(); else b[3] =0 ;
+
+    if(Padre->getNumberOfSons()==2){ //Si tiene 2 hijos Collapse Brother por Father
+       PosNodo= Padre->getSonPosition(Nodo1);
+       Hermano = Padre->getSon(PosNodo==0?1:0);
+
+       if (Hermano->hasDistanceToFather()) {
+           distancetofather = Hermano->getDistanceToFather();
+           b[1] = distancetofather;
+       }else      
+           b[1] = 0;
+       
+
+       //Quito al Padre sin el hermano, y ubico al hermano en vez del Padre
+       Padre->removeSon(Hermano);
+       GP = Padre->getFather();
+       GP->setSon(GP->getSonPosition(Padre),Hermano);
+       
+       if(Padre->hasDistanceToFather()) {
+               distancetofather+=Padre->getDistanceToFather();
+               b[4] = Padre->getDistanceToFather();
+       }else b[4] =0;
+           
+       Hermano->setDistanceToFather(distancetofather);
+       
+       b[0] = 1; //Normal Nodos con dos Hijos
+       p.second=Hermano;
+      
+
+     }else{ //Si tiene mas de un hermano, no se hace Collapse
+
+       PosNodo= Padre->getSonPosition(Nodo1);
+       Hermano = Padre->getSon(PosNodo==0?1:0);
+
+       Padre->removeSon(Nodo1); //NO Elimina el NODO solo lo eliminar dle Vector de Sons
+
+       Padre = new Node(NextIDNode++);
+       Padre->addSon(Nodo1);
+       
+       b[0] = 2; //Nodo con mas de 2 Hijos SPRReverse
+       p.second=Hermano;
+     }
+
+     distancetofather=0;
+     
+     Padre2 = Nodo2->getFather();
+     
+     //cout << "Hermano 1" << endl;
+     
+     if(Nodo2->hasDistanceToFather()) {
+         distancetofather = Nodo2->getDistanceToFather();
+         b[2]=distancetofather;
+     }else   b[2]=0;
+     
+     Padre2->setSon(Padre2->getSonPosition(Nodo2),Padre);
+     
+     Padre->setDistanceToFather(distancetofather/2);
+     
+     //Agrego al Nodo2 como hijo del Padre
+     Padre->addSon(Nodo2);
+     
+     Nodo2->setDistanceToFather(distancetofather/2);
+     //cout << "PAdre 3 " << endl;
+     
+     IDs[0] = Padre->getId();      IDs[1] = Nodo1->getId();     IDs[2] = Nodo2->getId();
+     
+     /*if(Padre->hasDistanceToFather() and Nodo1->hasDistanceToFather() and Nodo2->hasDistanceToFather())
+        if(Padre->getDistanceToFather()>0 and Nodo1->getDistanceToFather()>0 and Nodo2->getDistanceToFather()>0)
+        cout << "Ramas a Optimizar dentro SPR " << Padre->getDistanceToFather() << " - " << Nodo1->getDistanceToFather() << " - " << Nodo2->getDistanceToFather() << endl;
+     */
+     pair<double *, int *> pn;
+     pn.first=b; pn.second=IDs;
+     
+     p.first = pn;
+     return p;
+}
+
+//SPR de Reserva a estado Anterior
+void PhylogeneticMutation_PLL::SPR(Node * Nodo1, Node * Nodo2, double *b){
+    
+   //b -- 0 tipo, 1 brLenHermano, 2 brLenNodo2, 3 brLenNod1, 4 brLenPadre
+    int PosNodo;
+    Node * Padre;
+    Node * Padre2;
+    Node * GP;
+    Node * Hermano;
+  
+    Padre=Nodo1->getFather();
+    if (b[3]!= 0) Nodo1->setDistanceToFather(b[3]);
+
+    PosNodo= Padre->getSonPosition(Nodo1);
+   Hermano = Padre->getSon(PosNodo==0?1:0);
+   if (b[2]!= 0) Hermano->setDistanceToFather(b[2]);
+
+   //cout << "Hermano " << endl;
+
+   //Quito al Padre sin el hermano, y ubico al hermano en vez del Padre
+   Padre->removeSon(Hermano);
+   GP = Padre->getFather();
+   GP->setSon(GP->getSonPosition(Padre),Hermano);
+
+   //cout << "Set Son Hermano" << endl;
+
+  Padre2 = Nodo2->getFather();
+     
+  //cout << "PAdre " << endl;
+
+   Padre2->setSon(Padre2->getSonPosition(Nodo2),Padre);
+   if(b[4] != 0) Padre->setDistanceToFather(b[4]);
+
+   //cout << "PAdre2 " << endl;
+
+   //Agrego al Nodo2 como hijo del Padre
+   Padre->addSon(Nodo2);
+   if(b[1] != 0) Nodo2->setDistanceToFather(b[1]);
+     //cout << "PAdre 3 " << endl;
+     
+     //cout << "Herman ID " << Hermano->getId() << endl;
+      
+}
+
+void PhylogeneticMutation_PLL::SPRreverse(Node * Nodo1, Node * Nodo2 , double *b,int &NextIDNode){
+    
+    int PosNodo;
+    Node * Padre;
+    Node * Padre2;
+    Node * GP;
+    Node * Hermano;
+  
+    Padre=Nodo1->getFather();
+    
+
+    PosNodo= Padre->getSonPosition(Nodo1);
+    Hermano = Padre->getSon(PosNodo==0?1:0);
+    if (b[2]!= 0) Hermano->setDistanceToFather(b[2]);
+   
+     //Quito al Padre sin el hermano, y ubico al hermano en vez del Padre
+     Padre->removeSon(Hermano);
+     GP = Padre->getFather();
+     GP->setSon(GP->getSonPosition(Padre),Hermano);
+
+
+     delete Padre; NextIDNode--;
+     Padre2 = Nodo2->getFather();
+     //Agrego al Nodo2 como hijo del Padre
+     Padre2->addSon(Nodo1);
+     if (b[3]!= 0) Nodo1->setDistanceToFather(b[3]);
+     //Nodo1->setDistanceToFather(distancetofather/2);
+}
+
+
+   
+int PhylogeneticMutation_PLL::getNivel(Node* nodo){
+    int Max=-1;
+      
+    if(nodo->isLeaf()){
+        return 0;
+    }else{
+        
+        vector<int> V;
+        for(int i=0;i<nodo->getNumberOfSons();i++){
+            V.push_back(getNivel(nodo->getSon(i)));
+        }
+        for(int i=0;i<nodo->getNumberOfSons();i++){
+            if(V[i]>Max) Max=V[i];
+        }
+        return Max+1;
+    }
+}
+
+int  PhylogeneticMutation_PLL::SPRvalide (Node* N1, Node* N2) {
+    if (!N2->hasFather()) return 0;
+    if (N1->getFather()==N2->getFather()) return 0;
+    if (N1->getFather()==N2) return 0;
+    
+    return 1;
+}
+
+/*
+ Recorre las NIteraciones con SPR, y se queda con el que MENOR Parsimonia da, luego hace esl SPR Movimiento
+ * y de parte del Max Likelihood optimiza las tres ramas SPR afectadas
+ * Se supone que el mejor SPR es casi el Mejor LikeLikhood, pero igual ayudo al LikeliHood
+ */
+
+//void PhylogeneticMutation_PLL::PPNOptimiz1(Solution * solution){
+//  cout <<"============================================================" << endl;
+//  cout << "Parsimonia I " <<  solution->getObjective(0) << "  Likelihood I " << solution->getObjective(1)  << endl;
+//
+//  double lk1,lk2 ;
+//  lk1 = lk2 = solution->getObjective(1);
+//  
+//  vector< pair<int , int > > MovSPRPar; //Almacena todos los MovsSPR ya hechos entres ID1 y ID2
+//  pair<int , int> IDs;        //Mejor Mov SPR ID1 ID2 
+//    
+//  pair<int , int> BestMovSPRPar;        //Mejor Mov SPR ID1 ID2 
+//  
+//  clock_t t_ini;
+//  t_ini = clock();
+//
+//  
+//    //Optimized Tree 
+//    PhyloTree * Pt = (PhyloTree*) solution->getDecisionVariables()[0];
+//    Phylogeny * problem_ = (Phylogeny *) solution->getProblem();
+//    TreeTemplate<Node> * tree = Pt->getTree();
+//    
+//     Solution *SMutada = new Solution(solution);
+//    PhyloTree * PtM = (PhyloTree*) SMutada->getDecisionVariables()[0];
+//    TreeTemplate<Node> * treeM = PtM->getTree();
+//    int NextNodeIDMutada = treeM->getNextId();
+//
+//    //DRTreeParsimony usado para denotar los posibles buenos moviemitos basads en Parsimonia
+//    DRTreeParsimonyScore * Par =	new DRTreeParsimonyScore(*tree, *problem_->getSites() ,false,true);
+//    TreeTemplate<Node> * treeP = Par->getTreeP_();
+//    vector<Node*> nodes = treeP->getNodes();
+//    int NextNodeIDPar = treeP->getNextId();
+//    
+//    int ParsimonyScore;
+//    int MenorParsimonia = Par->getScore();
+//    
+//     
+//    Node * Root;
+//    Node* Nodo1;
+//    Node* Nodo2;
+//
+//  int MaxNivel, dmax,d,up,down,u, Iteracion;
+//  bool b;
+//  
+//  pair< pair<double *, int *>, Node *> pPar;
+//  pair<double *, int *> pnPar;
+//  
+//  pair< pair<double *, int *>, Node *> pTreeMutada;
+//  pair<double *, int *> pnTreeMutada;
+//  
+//  
+//  
+//  
+//  Root=treeP->getRootNode();
+//  MaxNivel=0;
+//  for(int k=0;k<Root->getNumberOfSons();k++){      MaxNivel+= getNivel(Root->getSon(k));   }
+//
+//  dmax =MaxNivel; 
+//  //cout << "Dmax = " << dmax << endl;
+//   
+//  BestMovSPRPar.first=-1;  BestMovSPRPar.second=-1;
+//   
+//  for(Iteracion=0; Iteracion<NumIteraciones;Iteracion++){
+//      
+//        if (Iteracion%(NumIteraciones/MaxNivel+1)==0) dmax--;
+//      
+//        if(dmax < 3) dmax=3;
+//        else if(dmax > MaxNivel) dmax=MaxNivel;
+//
+//        do{
+//              b=true;
+//              do {
+//                  Nodo1 =  nodes[rand()%nodes.size()];
+//                  if(Nodo1->hasFather()){
+//                      if(Nodo1->getFather()->hasFather()) b=false;
+//                  }
+//              }while(b);
+//
+//              d=rand()%dmax+1; //Distancia entre 1 y DMax
+//              u=up=rand()%d+2; //Subir desde 2 a D
+//
+//              Nodo2=Nodo1;
+//              Node* prev;
+//              while(Nodo2->hasFather() && (u>0)) {
+//                 prev=Nodo2;
+//                 Nodo2=Nodo2->getFather();
+//                 u--;
+//              }
+//
+//              down=d+2-up-u;
+//
+//            while(Nodo2->getNumberOfSons()>1 && (down>0)) {
+//                  Nodo2 = Nodo2->getSon(rand()% Nodo2->getNumberOfSons());
+//                  if(Nodo1==Nodo2) {
+//                      Nodo2=Nodo2->getFather();
+//                  }else  down --;
+//            }
+//         }while(!SPRvalide (Nodo1,Nodo2));
+//         
+//         
+//         
+//         if(!isMov(MovSPRPar,Nodo1->getId() , Nodo2->getId())){
+//      
+//             IDs.first=Nodo1->getId();         IDs.second=Nodo2->getId();
+//             MovSPRPar.push_back(IDs);
+//             
+//            pPar=SPR(Nodo1, Nodo2, NextNodeIDPar); //Sobrr TreeParsimonia
+//            pnPar = pPar.first;
+//
+//            Par->topologyChangeTested(*new TopologyChangeEvent());
+//            //cout << "topologyChangeTested 2" << endl;
+//
+//            ParsimonyScore = Par->getScore();
+//            if( ParsimonyScore < MenorParsimonia){
+//                
+//                pTreeMutada=SPR(treeM->getNode(Nodo1->getId()),treeM->getNode(Nodo2->getId()), NextNodeIDMutada);
+//                pnTreeMutada = pTreeMutada.first;
+//                 
+//                pair<double, string> r =  PLLOptimizarRamas(SMutada, 2);
+//                
+//                SMutada->setObjective(0,ParsimonyScore);
+//                SMutada->setObjective(1,r.first); 
+//
+//               cout << "Solucion Mutada Score " << SMutada->getObjective(0) << " Lik: " << SMutada->getObjective(1) <<  endl;
+//               
+//               if(comparator->compare(solution, SMutada)==1){
+//                    cout << "Mejor Solucion MO Mutada "  << SMutada->getObjective(0) << " Lik: " << SMutada->getObjective(1) << endl;
+//
+//                    string arbol = r.second;
+//                   
+//                    delete treeM;
+//                    treeM = TreeTemplateTools::parenthesisToTree(arbol);
+//                    PtM->setTree(treeM);
+//                    NextNodeIDMutada = treeM->getNextId();
+//                    
+////                    problem_->evaluate(SMutada);
+////                    if((abs(SMutada->getObjective(0)-ParsimonyScore)>1) or (abs(SMutada->getObjective(1)-r.first)>1)){
+////                        cout << "Diferencias ParsEval " << SMutada->getObjective(0) << " LikEval: " << SMutada->getObjective(1) << endl;
+////                        exit(-1);
+////                    }
+//                    
+//                    delete Par;
+//                    Par =	new DRTreeParsimonyScore(*treeM, *problem_->getSites() ,false,true);
+//                    treeP = Par->getTreeP_();
+//                    nodes = treeP->getNodes();
+//                    NextNodeIDPar = treeP->getNextId();
+//                    
+//                    MovSPRPar.clear();
+//                    
+//                    delete tree;
+//                    tree = new TreeTemplate<Node>(*treeM);
+//                    Pt->setTree(tree);
+//                   
+//                   solution->setObjective(0,SMutada->getObjective(0));
+//                   solution->setObjective(1,SMutada->getObjective(1));
+//                   
+//                   MenorParsimonia = ParsimonyScore;
+//                   
+//
+//              }else{  //SPR REVSER MUTADA Y PARSIMONIA
+//                   
+//                    double *b = pnPar.first;
+//                    if(b[0]==1)
+//                      SPR(Nodo1,pPar.second,b);
+//                   else
+//                      SPRreverse(Nodo1,pPar.second,b,NextNodeIDPar);
+//                    
+//                  //delete[] pnPar.first;       delete[] pnPar.second;
+//            
+//                  
+//                   double *b2 = pnTreeMutada.first;
+//                   if(b2[0]==1){
+//                          SPR(treeM->getNode(Nodo1->getId()),treeM->getNode(pTreeMutada.second->getId()),b2);
+//                    }else{
+//                         SPRreverse(treeM->getNode(Nodo1->getId()),treeM->getNode(pTreeMutada.second->getId()),b2, NextNodeIDMutada);
+//                   }
+//                 
+//                   SMutada->setObjective(0,solution->getObjective(0));
+//                   SMutada->setObjective(1,solution->getObjective(1));
+//              }
+//                
+//                
+//              delete[] pnTreeMutada.first;       delete[] pnTreeMutada.second;
+//                
+//                //BestMovSPRPar.first= IDs.first;
+//                //BestMovSPRPar.second= IDs.second;
+//                
+//            }else {            
+//                 double *b = pnPar.first;
+//                if(b[0]==1)
+//                   SPR(Nodo1,pPar.second,b);
+//                else
+//                   SPRreverse(Nodo1,pPar.second,b,NextNodeIDPar);
+//            }
+//            delete[] pnPar.first;       delete[] pnPar.second;
+//       }
+//  }
+//  
+//  delete Par;
+//  delete SMutada;
+//   
+////  if(BestMovSPRPar.first!=-1 and BestMovSPRPar.second!=-1){
+////      
+////       
+////        int NextNodeIDMutada = tree->getNextId();
+////            
+////        pPar = SPR(tree->getNode(BestMovSPRPar.first),tree->getNode(BestMovSPRPar.second), NextNodeIDMutada);
+////        pnPar = pPar.first;
+////
+////        
+////        lk2 =  PLLOptimizarRamas(solution,2);
+////        
+////       //comprobar que pasandole las longi otimizadas queda mismo scroe del optimizas
+//////       problem_->evaluate(solution);
+//////       if( abs(solution->getObjective(0) - MenorParsimonia) > 2 or abs(solution->getObjective(1) -NewLik)>1  ){
+//////                cout << "Error No da el mismo Parmisonia que TreeMutada que treeParsimonia " << solution->getObjective(0) << " " << MenorParsimonia  << "  Lik= " << solution->getObjective(1) << " " << NewLik << endl;
+//////                cout << "Diferencia MP " << abs(solution->getObjective(0) - MenorParsimonia) << " ML " << abs(solution->getObjective(1) - NewLik) << endl;
+//////                exit(-1);
+//////        }
+////
+////         problem_->evaluate(solution,(float)MenorParsimonia,lk2); //Asigna los Scores y Graba en Files
+////        //solution->setObjective(0,MenorParsimonia);
+////        //solution->setObjective(1,NewLik);
+////        
+////  }else{
+////     // cout << "Ya No hay Ningun SPR BUENO " << endl;
+////  }
+//  
+//  double secs = ((double) (clock() - t_ini))/ CLOCKS_PER_SEC;
+//  cout << "Total execution time: " << secs << "s" << endl;
+//  
+//   problem_->evaluate(solution,solution->getObjective(0),solution->getObjective(1));
+//  
+// ComportamientoTime <<  ((double) (clock() - t_ini))/ CLOCKS_PER_SEC << endl; 
+// ComportamientoML << lk1-solution->getObjective(1)  << endl; 
+//  
+// cout << "Parsimonia F " <<  solution->getObjective(0) << "  Likelihood F " << solution->getObjective(1)  << endl;
+// cout <<"============================================================" << endl;
+//}
+
+
+//void PhylogeneticMutation_PLL::PPNOptimiz(Solution * solution){
+//  bool applychanged = false;
+//  
+//  vector< pair<int , int > > MovSPRPar; //Almacena todos los MovsSPR ya hechos entres ID1 y ID2
+//  pair<int , int> IDs;        //Mejor Mov SPR ID1 ID2 
+//    
+//  clock_t t_ini;
+//  t_ini = clock();
+//  
+//    //Optimized Tree 
+//    PhyloTree * Pt = (PhyloTree*) solution->getDecisionVariables()[0];
+//    Phylogeny * problem_ = (Phylogeny *) solution->getProblem();
+//    TreeTemplate<Node> * tree = Pt->getTree();
+//    
+//    //**************After Cruce debo saber el nuevo valor ****************************
+//    problem_->evaluate(solution);
+//    
+//    cout <<"============================================================" << endl;
+//    cout << "Parsimonia I " <<  solution->getObjective(0) << "  Likelihood I " << solution->getObjective(1)  << endl;
+//
+//   double lk1,lk2 ;
+//   lk1 = lk2 = solution->getObjective(1);
+//  
+//    
+//    Solution *SMutada = new Solution(solution);
+//    PhyloTree * PtM = (PhyloTree*) SMutada->getDecisionVariables()[0];
+//    TreeTemplate<Node> * treeM = PtM->getTree();
+//    int NextNodeIDMutada = treeM->getNextId();
+//
+//    //DRTreeParsimony usado para denotar los posibles buenos moviemitos basads en Parsimonia
+//    DRTreeParsimonyScore * Par =	new DRTreeParsimonyScore(*tree, *problem_->getSites() ,false,true);
+//    TreeTemplate<Node> * treeP = Par->getTreeP_();
+//    vector<Node*> nodes = treeP->getNodes();
+//    int NextNodeIDPar = treeP->getNextId();
+//    
+//    int ParsimonyScore;
+//    int MenorParsimonia = Par->getScore();
+//    
+//    //if( solution->getObjective(0)!=MenorParsimonia) { cout << "Error en Parsimnia " << solution->getObjective(0) << " " << MenorParsimonia << endl ; exit(-1); }
+//     
+//    Node * Root;
+//    Node* Nodo1;
+//    Node* Nodo2;
+//
+//  int MaxNivel, dmax,d,up,down,u, Iteracion;
+//  bool b;
+//  
+//  pair< pair<double *, int *>, Node *> pPar;
+//  pair<double *, int *> pnPar;
+//  
+//  pair< pair<double *, int *>, Node *> pTreeMutada;
+//  pair<double *, int *> pnTreeMutada;
+//  
+//  
+//  
+//  
+//  Root=treeP->getRootNode();
+//  MaxNivel=0;
+//  for(int k=0;k<Root->getNumberOfSons();k++){      MaxNivel+= getNivel(Root->getSon(k));   }
+//
+//  dmax =MaxNivel; 
+//  //cout << "Dmax = " << dmax << endl;
+//   
+//  //BestMovSPRPar.first=-1;  BestMovSPRPar.second=-1;
+//   
+//  for(Iteracion=0; Iteracion<NumIteraciones;Iteracion++){
+//      
+//        if (Iteracion%(NumIteraciones/MaxNivel+1)==0) dmax--;
+//      
+//        if(dmax < 3) dmax=3;
+//        else if(dmax > MaxNivel) dmax=MaxNivel;
+//
+//        do{
+//              b=true;
+//              do {
+//                  Nodo1 =  nodes[rand()%nodes.size()];
+//                  if(Nodo1->hasFather()){
+//                      if(Nodo1->getFather()->hasFather()) b=false;
+//                  }
+//              }while(b);
+//
+//              d=rand()%dmax+1; //Distancia entre 1 y DMax
+//              u=up=rand()%d+2; //Subir desde 2 a D
+//
+//              Nodo2=Nodo1;
+//              Node* prev;
+//              while(Nodo2->hasFather() && (u>0)) {
+//                 prev=Nodo2;
+//                 Nodo2=Nodo2->getFather();
+//                 u--;
+//              }
+//
+//              down=d+2-up-u;
+//
+//            while(Nodo2->getNumberOfSons()>1 && (down>0)) {
+//                  Nodo2 = Nodo2->getSon(rand()% Nodo2->getNumberOfSons());
+//                  if(Nodo1==Nodo2) {
+//                      Nodo2=Nodo2->getFather();
+//                  }else  down --;
+//            }
+//         }while(!SPRvalide (Nodo1,Nodo2));
+//         
+//         
+//         
+//         if(!isMov(MovSPRPar,Nodo1->getId() , Nodo2->getId())){
+//      
+//             IDs.first=Nodo1->getId();         IDs.second=Nodo2->getId();
+//             MovSPRPar.push_back(IDs);
+//             
+//            pPar=SPR(Nodo1, Nodo2, NextNodeIDPar); //Sobrr TreeParsimonia
+//            pnPar = pPar.first;
+//
+//            Par->topologyChangeTested(*new TopologyChangeEvent());
+//            //cout << "topologyChangeTested 2" << endl;
+//
+//            ParsimonyScore = Par->getScore();
+//            if( ParsimonyScore < MenorParsimonia){
+//                
+//                pTreeMutada=SPR(treeM->getNode(Nodo1->getId()),treeM->getNode(Nodo2->getId()), NextNodeIDMutada);
+//                pnTreeMutada = pTreeMutada.first;
+//                 
+//                problem_->evaluateLK(SMutada,(float)ParsimonyScore);
+//
+//               //cout << "Solucion Mutada Score " << SMutada->getObjective(0) << " Lik: " << SMutada->getObjective(1) <<  endl;
+//               
+//               if(comparator->compare(solution, SMutada)==1){
+//                    //cout << "Mejor Solucion MO Mutada "  << SMutada->getObjective(0) << " Lik: " << SMutada->getObjective(1) << endl;
+//
+//                    applychanged = true;
+//                    
+//                    solution->setObjective(0,SMutada->getObjective(0));
+//                    solution->setObjective(1,SMutada->getObjective(1));
+//                   
+//                    MenorParsimonia = ParsimonyScore;
+//                   
+//
+//              }else{  //SPR REVSER MUTADA Y PARSIMONIA
+//                   
+//                    double *b = pnPar.first;
+//                    if(b[0]==1)
+//                      SPR(Nodo1,pPar.second,b);
+//                   else
+//                      SPRreverse(Nodo1,pPar.second,b,NextNodeIDPar);
+//                    
+//                  //delete[] pnPar.first;       delete[] pnPar.second;
+//            
+//                  
+//                   double *b2 = pnTreeMutada.first;
+//                   if(b2[0]==1){
+//                          SPR(treeM->getNode(Nodo1->getId()),treeM->getNode(pTreeMutada.second->getId()),b2);
+//                    }else{
+//                         SPRreverse(treeM->getNode(Nodo1->getId()),treeM->getNode(pTreeMutada.second->getId()),b2, NextNodeIDMutada);
+//                   }
+//                 
+//                   SMutada->setObjective(0,solution->getObjective(0));
+//                   SMutada->setObjective(1,solution->getObjective(1));
+//              }
+//                
+//                
+//              delete[] pnTreeMutada.first;       delete[] pnTreeMutada.second;
+//                
+//                //BestMovSPRPar.first= IDs.first;
+//                //BestMovSPRPar.second= IDs.second;
+//                
+//            }else {            
+//                 double *b = pnPar.first;
+//                if(b[0]==1)
+//                   SPR(Nodo1,pPar.second,b);
+//                else
+//                   SPRreverse(Nodo1,pPar.second,b,NextNodeIDPar);
+//            }
+//            delete[] pnPar.first;       delete[] pnPar.second;
+//       }
+//  }
+//  
+//  delete Par;
+//  
+//  
+//  if(applychanged){
+//      
+//        //double nlk =  PLLOptimizarRamas2(SMutada, 2);  //Actualiza NewtoRamas pero deja
+//        //SMutada->setObjective(1,nlk);
+//
+//        //delete solution;
+//        solution = new Solution(SMutada);
+//        
+//  }else{
+//     cout << "No hay Cambios Topológicos" << endl;
+//  }
+//
+//  delete SMutada;
+//  
+//  //double secs = ((double) (clock() - t_ini))/ CLOCKS_PER_SEC;
+//  //cout << "Total execution time: " << secs << "s" << endl;
+//  
+// ComportamientoTime <<  ((double) (clock() - t_ini))/ CLOCKS_PER_SEC << endl; 
+// ComportamientoML << lk1-solution->getObjective(1)  << endl; 
+// 
+// //Solo para registrar 
+// problem_->evaluate(solution,solution->getObjective(0),solution->getObjective(1));
+//  
+// cout << "Parsimonia F " <<  solution->getObjective(0) << "  Likelihood F " << solution->getObjective(1)  << endl;
+// cout <<"============================================================" << endl;
+//}
+
+double  PhylogeneticMutation_PLL::PLLOptimizarRamas2(Solution *  solution, int numevals){
+    
+  PhyloTree * Pt = (PhyloTree*) solution->getDecisionVariables()[0];
+  Phylogeny * problem_ = (Phylogeny *) solution->getProblem();
+  TreeTemplate<Node> * tree = Pt->getTree();
+  
+  pllInstance * tr;
+  pllNewickTree * newick;
+  partitionList * partitions;
+ 
+  //clock_t t_ini, t_fin;
+  //t_ini = clock();
+
+  tr = pllCreateInstance (&problem_->attr);
+  partitions = pllPartitionsCommit (problem_->partitionInfo, problem_->alignmentData);
+  
+  
+  string treenewick = TreeTemplateTools::treeToParenthesis(*tree);
+  newick = pllNewickParseString	(treenewick.c_str());
+  if (!newick){ cout << "PLLSearch, Error while parsing newick tree  " << endl;	exit(-1); }
+
+  if (!pllValidateNewick (newick)) { cout << "PLLSearch, Invalid phylogenetic tree:" << endl << treenewick << endl;	exit(-1); }
+
+  pllTreeInitTopologyNewick (tr, newick, PLL_FALSE);
+  if (!pllLoadAlignment (tr, problem_->alignmentData, partitions)) {  cout << "PLLSearch, Incompatible tree/alignment combination" << endl;	exit(-1); }
+
+ 
+ pllInitModel(tr, partitions);
+
+ double q[6] = {Pt->AC,Pt->AG,Pt->AT,Pt->CG,Pt->CT,Pt->GT}; 
+ double f[4] = {Pt->piA,Pt->piC,Pt->piG,Pt->piT}; 
+
+ pllSetFixedAlpha(Pt->alpha , 0, partitions, tr);  
+ pllSetFixedSubstitutionMatrix(q, 6, 0, partitions, tr);
+ pllSetFixedBaseFrequencies(f, 4, 0, partitions, tr);
+
+ pllEvaluateLikelihood(tr, partitions, tr->start, PLL_TRUE, PLL_FALSE);
+ 
+ pllOptimizeBranchLengths (tr, partitions, numevals);
+  
+  delete tree;
+  pllTreeToNewick(tr->tree_string, tr, partitions, tr->start->back, true, true, false, false, false, 1, false, false);
+  string arbol(tr->tree_string);   //fprintf(stderr, "%s\n", tr->tree_string );
+  tree = TreeTemplateTools::parenthesisToTree(arbol);
+  Pt->setTree(tree);
+   
+  
+  pllNewickParseDestroy (&newick);
+  pllPartitionsDestroy (tr, &partitions);
+  pllDestroyInstance (tr);
+  
+  return tr->likelihood;
+}
+
+pair<double, string>  PhylogeneticMutation_PLL::PLLOptimizarRamas(Solution *  solution, int numevals){
+  
+  pair<double, string> p;
+    
+  PhyloTree * Pt = (PhyloTree*) solution->getDecisionVariables()[0];
+  Phylogeny * problem_ = (Phylogeny *) solution->getProblem();
+  TreeTemplate<Node> * tree = Pt->getTree();
+  
+  pllInstance * tr;
+  pllNewickTree * newick;
+  partitionList * partitions;
+ 
+  //clock_t t_ini, t_fin;
+  //t_ini = clock();
+
+  tr = pllCreateInstance (&problem_->attr);
+  partitions = pllPartitionsCommit (problem_->partitionInfo, problem_->alignmentData);
+  
+  
+  string treenewick = TreeTemplateTools::treeToParenthesis(*tree);
+  newick = pllNewickParseString	(treenewick.c_str());
+  if (!newick){ cout << "PLLSearch, Error while parsing newick tree  " << endl;	exit(-1); }
+
+  if (!pllValidateNewick (newick)) { cout << "PLLSearch, Invalid phylogenetic tree:" << endl << treenewick << endl;	exit(-1); }
+
+  pllTreeInitTopologyNewick (tr, newick, PLL_FALSE);
+  if (!pllLoadAlignment (tr, problem_->alignmentData, partitions)) {  cout << "PLLSearch, Incompatible tree/alignment combination" << endl;	exit(-1); }
+
+ 
+ pllInitModel(tr, partitions);
+
+ double q[6] = {Pt->AC,Pt->AG,Pt->AT,Pt->CG,Pt->CT,Pt->GT}; 
+ double f[4] = {Pt->piA,Pt->piC,Pt->piG,Pt->piT}; 
+
+ pllSetFixedAlpha(Pt->alpha , 0, partitions, tr);  
+ pllSetFixedSubstitutionMatrix(q, 6, 0, partitions, tr);
+ pllSetFixedBaseFrequencies(f, 4, 0, partitions, tr);
+
+ pllEvaluateLikelihood(tr, partitions, tr->start, PLL_TRUE, PLL_FALSE);
+ 
+ pllOptimizeBranchLengths (tr, partitions, numevals);
+  
+
+  pllTreeToNewick(tr->tree_string, tr, partitions, tr->start->back, true, true, false, false, false, 1, false, false);
+  string arbol(tr->tree_string);   //fprintf(stderr, "%s\n", tr->tree_string );
+  
+  p.first = tr->likelihood;
+  p.second = arbol;
+  
+  pllNewickParseDestroy (&newick);
+  pllPartitionsDestroy (tr, &partitions);
+  pllDestroyInstance (tr);
+  
+  //t_fin = clock();
+  //double secs = ((double) (t_fin - t_ini))/ CLOCKS_PER_SEC;
+  //cout << "Total execution time: " << secs << "s" << endl;
+  
+  return p;
+}
+
+
+double PhylogeneticMutation_PLL::OptimizarParamModeloSust(Solution * solution){
+
+    if(!OptimizacionSubstModel) return 0;
+    
+    Phylogeny * Prob = (Phylogeny *) solution->getProblem();
+    PhyloTree * Pt  = (PhyloTree*) solution->getDecisionVariables()[0];
+    TreeTemplate<Node> * t;  
+    t = Pt->getTree();
+    
+    
+   //SubstitutionModel * Model = new HKY85(Prob->alphabet,Pt->kappa, Pt->piA, Pt->piC, Pt->piG, Pt->piT); 
+   SubstitutionModel * Model = new GTR(Prob->alphabet,
+           Pt->CT/Pt->AG,Pt->AT/Pt->AG,Pt->GT/Pt->AG,Pt->AC/Pt->AG,Pt->CG/Pt->AG,
+           Pt->piA, Pt->piC, Pt->piG, Pt->piT); 
+
+   DiscreteDistribution * RateDist =  new GammaDiscreteDistribution(Prob->NumCat,Pt->alpha,Pt->beta);
+      
+    DiscreteRatesAcrossSitesTreeLikelihood * tl1= new RHomogeneousTreeLikelihood(*t, *Prob->sites2_,Model, RateDist, true,false,true);
+    tl1->initialize();
+
+    double lk= tl1->getValue();
+
+    DerivableSecondOrder* f = tl1;
+    MetaOptimizerInfos* desc = new MetaOptimizerInfos();
+    MetaOptimizer* poptimizer = 0;
+         //  if (MetodoOptimizacionSubstModel == OptimizationTools::OPTIMIZATION_BRENT){
+               
+               ParameterList plsm = tl1->getSubstitutionModelParameters();
+               desc->addOptimizer("Substitution model parameter", new SimpleMultiDimensions(f), plsm.getParameterNames(), 0, MetaOptimizerInfos::IT_TYPE_STEP);
+     
+                //for(int m=0;m<plsm.size();m++){ cout << "Par " << m << " " << plsm[m].getName() << " " << plsm[m].getValue() << endl;}
+               
+               ParameterList plrd = tl1->getRateDistributionParameters();
+               desc->addOptimizer("Rate distribution parameter", new SimpleMultiDimensions(f), plrd.getParameterNames(), 0, MetaOptimizerInfos::IT_TYPE_STEP);
+     
+                //for(int m=0;m<plrd.size();m++){cout << "Par " << m << " " << plrd[m].getName() << " " << plrd[m].getValue() << endl;}
+               
+               poptimizer = new MetaOptimizer(f, desc, 0);
+               
+          /* }   else if (MetodoOptOtrosParam == OptimizationTools::OPTIMIZATION_BFGS){
+     
+               vector<string> vNameDer;
+               AbstractNumericalDerivative* fnum = new ThreePointsNumericalDerivative(f);
+               
+               ParameterList plsm = tl->getSubstitutionModelParameters();
+               vNameDer = plsm.getParameterNames();
+          
+               ParameterList plrd = tl->getRateDistributionParameters();
+               vector<string> vNameDer2 = plrd.getParameterNames();
+
+               vNameDer.insert(vNameDer.begin(), vNameDer2.begin(), vNameDer2.end());
+               fnum->setParametersToDerivate(vNameDer);
+ 
+              desc->addOptimizer("Rate & model distribution parameters", new BfgsMultiDimensions(fnum), vNameDer, 1, MetaOptimizerInfos::IT_TYPE_FULL);
+              poptimizer = new MetaOptimizer(fnum, desc, 0);
+        }
+    
+        }else {
+             
+        }*/
+
+        poptimizer->setVerbose(0);
+        poptimizer->setMaximumNumberOfEvaluations(NumIterOptSubstModel);
+        poptimizer->getStopCondition()->setTolerance(TolerenciaOptSubstModel);
+        
+        poptimizer->setProfiler(NULL);
+        poptimizer->setMessageHandler(NULL);
+  
+        poptimizer->setConstraintPolicy(AutoParameter::CONSTRAINTS_AUTO);
+        
+        ParameterList pl2 = plsm;
+        pl2.addParameters(plrd);
+        
+        poptimizer->init(pl2); //tl1->getParameters()
+        
+        double lk2=poptimizer->optimize();
+        cout << "Optimización SubstModel Lik " << lk << " OptimiLik " <<  lk2 << " Mejoramiento " << lk-lk2<< endl;
+        
+        ParameterList pl = poptimizer->getParameters();
+        //for(int m=0;m<pl.size();m++){ cout << "Par " << m << " " << pl[m].getName() << " " << pl[m].getValue() << endl;      }
+        //cout << "NumberOfEvaluations " << poptimizer->getNumberOfEvaluations() << endl;
+   
+       double theta_  = pl.hasParameter("GTR.theta")?pl.getParameterValue("GTR.theta"):0;
+       double theta1_ = pl.hasParameter("GTR.theta1")?pl.getParameterValue("GTR.theta1"):0;
+       double theta2_ = pl.hasParameter("GTR.theta2")?pl.getParameterValue("GTR.theta2"):0;
+
+        if(theta_!=0 and theta1_!=0 and theta2_!=0){
+            Pt->piA = theta1_ * (1. - theta_);
+            Pt->piC = (1. - theta2_) * theta_;
+            Pt->piG = theta2_ * theta_;
+            Pt->piT =(1. - theta1_) * (1. - theta_);
+        }
+    
+        Pt->CT= pl.getParameterValue("GTR.a")*Pt->AG;
+        Pt->AT= pl.getParameterValue("GTR.b")*Pt->AG;       
+        Pt->GT= pl.getParameterValue("GTR.c")*Pt->AG;
+        Pt->AC= pl.getParameterValue("GTR.d")*Pt->AG;
+        Pt->CG= pl.getParameterValue("GTR.e")*Pt->AG;
+       
+        if(pl.hasParameter("Gamma.alpha"))  Pt->alpha = pl.getParameterValue("Gamma.alpha");
+        if(pl.hasParameter("Gamma.beta"))  Pt->beta = pl.getParameterValue("Gamma.beta");
+    
+         
+         delete tl1;
+         delete Model;
+         delete RateDist;
+         delete poptimizer;
+        
+         return lk2;
+       
+}
+
+void * PhylogeneticMutation_PLL::execute(void *object) {
+  Solution *solution = (Solution *)object;
+  // TODO: VALID_TYPES?
+  //double probability = *(double *)getParameter("probability");
+  doMutation(mutationProbability_, solution);
+  return solution;
+} // execute
+ 

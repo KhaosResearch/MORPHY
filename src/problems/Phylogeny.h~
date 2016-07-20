@@ -1,0 +1,122 @@
+//  Phylogeny.h
+//
+//  Author:
+//     Cristian G. Zambrano Vega <cristian_uteq@hotmail.com>
+//
+//  Copyright (c) 2011 Antonio J. Nebro, Juan J. Durillo
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Lesser General Public License for more details.
+//
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#ifndef PHYLOGENY_H_
+#define PHYLOGENY_H_
+
+
+#include <Problem.h>
+
+#include <PhyloTreeSolutionType.h>
+#include <Solution.h>
+
+#include <time.h>
+
+#include <Bpp/Seq/Alphabet/DNA.h>
+#include <Bpp/Seq/Alphabet/Alphabet.h>
+#include <Bpp/Seq/Container/SiteContainer.h>
+#include <Bpp/Seq/Container/SequenceContainer.h>
+#include <Bpp/Seq/Container/SiteContainerTools.h>
+#include <Bpp/Seq/Io/Phylip.h>
+
+#include <Bpp/Phyl/TreeTemplate.h>
+#include <Bpp/Phyl/TreeTemplateTools.h>
+
+#include <Bpp/Phyl/Model/Nucleotide/HKY85.h>
+
+#include <Bpp/Phyl/Model/RateDistribution/GammaDiscreteRateDistribution.h>
+#include <Bpp/Phyl/Io/Newick.h>
+#include <Bpp/Phyl/Node.h>
+
+#include <Bpp/Phyl/Parsimony/DRTreeParsimonyScore.h>
+#include <Bpp/Phyl/Likelihood/RHomogeneousTreeLikelihood.h>
+
+
+#include <Bpp/Phyl/OptimizationTools.h>
+
+#include <Bpp/Io/FileTools.h>
+
+using namespace std;
+using namespace bpp;
+/**
+  * @class Phylogeny
+  * @brief Class representing problem Phylogeny
+  **/
+
+class Phylogeny : public Problem {
+private:
+    void PrintScores(double p,double l);
+    
+public:
+  //Phylogeny(string solutionType);
+  Phylogeny(string SequenceFile, double  kappa_, double alpha_, double beta_, int NumCat_ ,
+                    double piA_, double piC_, double piG_, double piT_,
+                    int bootstrapSize_,string BootStrapFilename_);
+  ~Phylogeny();
+
+  vector<string> getLeavesName();
+  SiteContainer* getSites();
+  SiteContainer* getSites2();
+  string getSequenceFilename();
+  double getMP();
+
+  void evaluate(Solution *solution);
+  void evaluate(Solution *solution, DRTreeParsimonyScore* ParsimonyEvaluator); 
+  void evaluate(Solution *solution, DRTreeParsimonyScore* ParsimonyEvaluator, NNIHomogeneousTreeLikelihood * LikelihoodEvaluator );
+
+  void setModel();
+  void setRateDistribution();
+
+  DNA* alphabet;
+  Phylip* seqReader;
+  SiteContainer* sites_;
+  SiteContainer* sites2_;
+  SubstitutionModel* model;
+  DiscreteDistribution* rateDist;
+  DRTreeParsimonyScore* ParsimonyEvaluator ;
+  RHomogeneousTreeLikelihood* LikelihoodEvaluator ;
+  Newick * newick;
+
+
+  string SequenceFilename;
+  map<int, double> neuclotidesfreqs;
+  int numarbol;
+  vector<Tree*> trees;
+  int bootstrapSize;
+  string bootstrapFilename;
+  string FilenameIntree;
+  double mp;
+  double ml;
+
+  double kappa, alpha, beta, piA, piC, piG, piT;
+  
+  size_t NumCat;
+  
+  int NumEvaluaciones;
+  
+  
+  void OpenScores();
+  void CloseScores();
+  ofstream ComportamientoMP,ComportamientoML;
+  bool filescore;
+
+};
+
+#endif /* PHYLOGENY_H_ */

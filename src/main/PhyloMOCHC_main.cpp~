@@ -1,0 +1,131 @@
+//  PhyloMOCHC_main.cpp
+//  //
+//  //  Author:
+//	 Some phylogenetic features were added by Cristian Zambrano-Vega
+//       <czambrano@uteq.edu.ec>
+//  //
+//  //  Copyright (c) 2011 Antonio J. Nebro, Juan J. Durillo
+//  //
+//  //  This program is free software: you can redistribute it and/or modify
+//  //  it under the terms of the GNU Lesser General Public License as published by
+//  //  the Free Software Foundation, either version 3 of the License, or
+//  //  (at your option) any later version.
+//  //
+//  //  This program is distributed in the hope that it will be useful,
+//  //  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  //  GNU Lesser General Public License for more details.
+//  //
+//  //  You should have received a copy of the GNU Lesser General Public License
+//  //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+
+#include <Problem.h>
+#include <Solution.h>
+#include <HUXCrossover.h>
+#include <BitFlipMutation.h>
+#include <BinaryTournament2.h>
+#include <iostream>
+#include <string.h>
+#include <time.h>
+#include <ZDT5.h>
+
+#include <Bpp/Phyl/OptimizationTools.h>
+
+#include <Bpp/App/BppApplication.h>
+#include <Bpp/App/ApplicationTools.h>
+#include <Bpp/Io/FileTools.h>
+#include <Bpp/Text/TextTools.h>
+#include <Bpp/Text/KeyvalTools.h>
+
+#include <TreeCrossover.h>
+#include <PhylogeneticMutation.h>
+#include <Phylogeny.h>
+#include <PhyloMOCHC.h>
+
+int main(int argc, char ** argv) {
+
+  clock_t t_ini, t_fin;
+  
+  Problem   		* problem   ; // The problem to solve
+  Algorithm 		* algorithm ; // The algorithm to use
+  TreeCrossover  	* crossover ; // Crossover operator
+  PhylogeneticMutation  * mutation  ; // Mutation operator
+  BinaryTournament2 	* selection ; // Selection operator
+
+  BppApplication * objApp = new BppApplication(argc, argv, "Params");
+
+  string NumExp =  ApplicationTools::getStringParameter("experimentid", objApp->getParams(), "1", "", false, false);
+
+  //Problem
+  problem =  new Phylogeny(objApp);
+
+  algorithm = new PhyloMOCHC(problem);
+
+  // Algorithm parameters
+
+  int populationSize= ApplicationTools::getIntParameter("populationsize", objApp->getParams(), 100, "", false, false);
+  int maxEvaluations = ApplicationTools::getIntParameter("maxevaluations", objApp->getParams(), 2000, "", false, false);
+  int IntervalOptSubsModel= ApplicationTools::getIntParameter("intervalupdateparameters", objApp->getParams(), 500, "", false, false);
+
+  double initialConvergenceCount = 0.25;
+  double preservedPopulation = 0.05;
+  int convergenceValue = 3;
+
+  algorithm->setInputParameter("populationSize",&populationSize);
+  algorithm->setInputParameter("maxEvaluations",&maxEvaluations);
+  algorithm->setInputParameter("initialConvergenceCount",&initialConvergenceCount);
+  algorithm->setInputParameter("preservedPopulation",&preservedPopulation);
+  algorithm->setInputParameter("convergenceValue",&convergenceValue);
+
+ //Operator CrossOver
+  map<string, void *> parameters;
+  double crossoverProbability =  ApplicationTools::getDoubleParameter("crossover.probability", objApp->getParams(), 0.8, "", false, false); //0.8;
+  int NumDescendientes =   ApplicationTools::getIntParameter("crossover.offspringsize", objApp->getParams(), 2, "", false, false);;
+  parameters["probability"] =  &crossoverProbability;
+  parameters["numDescendientes"] =  &NumDescendientes;
+  crossover = new TreeCrossover(parameters);
+
+
+//Operator Mutation
+  parameters.clear();
+  double mutationProbability = ApplicationTools::getDoubleParameter("mutation.probability", objApp->getParams(), 0.2, "", false, false);
+  double mutationDistributionIndex = 20;
+  string OperadorMutacion= ApplicationTools::getStringParameter("mutation.method", objApp->getParams(), "NNI", "", false, false);
+  
+  parameters["probability"] = &mutationProbability;
+  parameters["distributionIndex"] = &mutationDistributionIndex;
+  parameters["metodo"] = &OperadorMutacion;
+  mutation = new PhylogeneticMutation(parameters);
+
+  // Selection Operator
+   parameters.clear();
+  selection = new BinaryTournament2(parameters);
+
+  // Add the operators to the algorithm
+   algorithm->addOperator("crossover",crossover);
+   algorithm->addOperator("mutation",mutation);
+   algorithm->addOperator("parentSelection",selection);
+
+  // Execute the Algorithm
+   t_ini = clock();
+   SolutionSet * population = algorithm->execute();
+   t_fin = clock();
+   double secs = (double) (t_fin - t_ini);
+   secs = secs / CLOCKS_PER_SEC;
+
+	// Result messages
+	cout << "Total execution time: " << secs << "s" << endl;
+	cout << "Variables values have been written to file VAR" << endl;
+	population->printVariablesToFile("VAR");
+	cout << "Objectives values have been written to file FUN" << endl;
+	population->printObjectivesToFile("FUN");
+  
+
+  delete selection;
+  delete mutation;
+  delete crossover;
+  delete population;
+  delete algorithm;
+
+} // main
