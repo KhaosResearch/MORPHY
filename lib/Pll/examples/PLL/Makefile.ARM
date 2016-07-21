@@ -1,0 +1,22 @@
+CC = gcc 
+MAKE = make
+LIBPATH = ../../src
+INCPATH = ../../src
+BIN = pll
+PLL = pll
+ARCH = ARM
+LIBRARIES = -l$(PLL)-$(ARCH) -lm
+TARGET = $(BIN)-$(ARCH)
+RM = rm -f
+
+all: $(BIN)-$(ARCH)
+
+$(BIN)-$(ARCH): main.c
+	$(MAKE) -C $(LIBPATH) -f Makefile.$(ARCH)
+	@echo "==> Building PLL example ($(BIN)-$(ARCH))"
+	$(CC) $+ -L $(LIBPATH) -I $(INCPATH) $(LIBRARIES) -o $@ 
+
+clean : 
+	-$(RM) $(BIN)-$(ARCH)
+
+.PHONY: all clean

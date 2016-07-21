@@ -1,0 +1,17 @@
+CC = gcc 
+MAKE = make
+LIBPATH = ../../
+LIBRARIES = -lpll-AVX -lm
+RM = rm -f
+
+all: pll
+
+pll: main.c
+	$(MAKE) -C $(LIBPATH) -f Makefile.AVX.gcc
+	@echo "==> Building PLL example"
+	$(CC) $+ -L $(LIBPATH) $(LIBRARIES) -o $@ 
+
+clean : 
+	$(RM) pll 
+
+.PHONY: all clean

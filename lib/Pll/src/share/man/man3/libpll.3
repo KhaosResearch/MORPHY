@@ -1,0 +1,94 @@
+.TH PLL 3 "1 Sep 2013"
+.SH NAME
+PLL \- Phylogenetic Likelihood Library
+.SH SYNOPSIS
+.NF
+#include <pll.h>
+.sp
+[see
+.I pll.h
+for full description]
+.SH DESCRIPTION
+.I PLL
+is a software library for phylogenetic inference. The code is thread safe, and
+optimized for the
+.I Advanced Vector Extensions 
+(AVX) and the
+.I Streaming SIMD Extensions
+(SSE)
+instruction set extensions to the x86 architecture.
+.LP
+.I  PLL
+supports DNA and protein partitioned analysis. For DNA partitions the GTR model is supported
+and for protein partitions the models 
+.IR DAYHOFF ,
+.IR DCMUT ,
+.IR JTT ,
+.IR MTREV ,
+.IR WAG ,
+.IR RTREV ,
+.IR CPREV ,
+.IR VT ,
+.IR BLOSUM62 ,
+.IR MTMAM ,
+.IR LG
+.IR MTART ,
+.IR MTZOA ,
+.IR PMB ,
+.IR HIVB ,
+.IR HIVW ,
+.IR JTTDCMUT ,
+.IR FLU ,
+.IR LG4
+and
+.IR GTR
+are supported. In addition the model
+.IR AUTO
+is available for auto-detecting the best model for the specific partition.
+.LP
+.IR PLL
+is available at
+.IP
+http://www.libpll.org
+.SH "SEE ALSO"
+The
+.I PLL
+web site can be found at
+.IP
+http://www.libpll.org
+.LP
+Another library for phylogenetic inference is
+.I beagle-lib
+which is available at
+.IP
+https://code.google.com/p/beagle-lib/
+.SH "REPORTING PROBLEMS"
+Before reporting a problem,
+please check the
+.I PLL
+web site to verify that you have the latest version of
+.IR PLL ;
+otherwise,
+obtain the latest version and see if the problem persists.
+Please browse through the 
+.I PLL
+mailing list before asking for help.
+.SH AUTHORS
+Version 0.9.0
+Copyright (C) 2013 Tomas Flouri (Tomas.Flouri@h-its.org) and Alexandros Stamatakis (Alexandros.Stamatakis@h-its.org).
+.LP
+This software is provided "as-is,"
+without any express or implied warranty.
+In no event will the authors be help liable for any damages
+arising from the use of this software.
+See the distribution directory with respect to requirements
+governing redistribution.
+The
+.IR PLL 
+codebase started from 
+.IR RAxML 
+by Alexandros Stamatakis.
+Thanks to all people who contributed to the code and suggested various
+implrovements in 
+.IR PLL ; 
+who are too numerous to cite here.

@@ -1,0 +1,22 @@
+CC = icc 
+MAKE = make
+LIBPATH = ../../src
+INCPATH = ../../src
+BIN = pll
+PLL = pll
+ARCH = MIC-PTHREADS
+LIBRARIES = -l$(PLL)-$(ARCH) -lm -lpthread
+TARGET = $(BIN)-$(ARCH)
+RM = rm -f
+
+all: $(BIN)-$(ARCH)
+
+$(BIN)-$(ARCH): main.c
+	$(MAKE) -C $(LIBPATH) -f Makefile.$(ARCH)
+	@echo "==> Building PLL example ($(BIN)-$(ARCH))"
+	$(CC) -mmic -D_USE_PTHREADS $+ -L $(LIBPATH) -I $(INCPATH) $(LIBRARIES) -o $@ 
+
+clean : 
+	-$(RM) $(BIN)-$(ARCH)
+
+.PHONY: all clean

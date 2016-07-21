@@ -1,0 +1,186 @@
+% % This is LLNCS.DEM the demonstration file of
+% the LaTeX macro package from Springer-Verlag
+% for Lecture Notes in Computer Science,
+% version 2.4 for LaTeX2e as of 16. April 2010
+%
+\documentclass[oneside,12pt]{book}
+%\usepackage[top=1cm,bottom=3cm,height=14cm,paperheight=14cm,width=18cm,paperwidth=18cm]{geometry}
+\usepackage[paperheight=16cm,paperwidth=23cm]{geometry}
+\usepackage[absolute]{textpos}
+%
+\usepackage[pst,vaucanson-g]{xcolor}
+% vlined
+\usepackage{pstricks}
+\usepackage{auto-pst-pdf,pstricks-add}
+%\usepackage{enumerate}
+\usepackage{pstricks}
+\usepackage{pst-tree}
+%\usepackage{subfigure}
+\usepackage{graphicx}
+%\usepackage{subfig}
+%\usepackage{tabularx}
+%\usepackage{pstricks-add}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{vaucanson-g}
+%\usepackage{pstcol}
+\usepackage{url}
+\usepackage{comment}
+\usepackage{a4wide}
+%\usepackage{tikz}
+%\usetikzlibrary{trees}
+%\usetikzlibrary{decorations.pathmorphing}
+%\usetikzlibrary{decorations.markings}
+%\usetikzlibrary{arrows}
+%\usepackage{tikz}
+%\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+%  \node[shape=circle,draw,inner sep=0.5pt] (char) {#1};}}
+
+% \makeatletter
+% \def\zaptype#1{%
+% \listsubcaptions % Finish the last set of sub-floats before
+% \def\@captype{#1}}% switching to another float type.
+% \makeatother
+
+\thispagestyle{empty}
+\begin{document}
+\begin{textblock}{3}(0,0.5)
+\scalebox{1.5}{
+\begin{pspicture}[showgrid=false](15,11)
+\psStartPoint[A](6,6) % nodes have the base name A
+\psVector[arrows=-](2;0)\psVector[arrows=-](1.5;0)\psVector[arrows=-](0.5;0)\psVector[arrows=-](0.5;60)\psVector[arrows=-,linestyle=dashed,linecolor=red](2.5;60)
+
+\psStartPoint[tmp](10,6)
+\psVector[arrows=-](0.5;60)\psVector[arrows=-,linestyle=dashed,linecolor=red](2;60)\psVector[arrows=-](0.5;60)
+\psVector[arrows=-](1.5;0)\psVector[arrows=-,linestyle=dashed](1;0)
+\psStartPoint[tmp](10,6)
+\psVector[arrows=-](0.5;60)\psVector[arrows=-,linestyle=dashed, linecolor=red](2;60)\psVector[arrows=-](0.5;60)
+\psVector[arrows=-](1.5;120)\psVector[arrows=-,linestyle=dashed](1;120)
+
+\psline[origin=A5](0.5;0)
+\psline[origin=A5](0.5;120)
+\psarc[linestyle=dashed]{->}(A5){0.5}{0}{120}
+\psarc[linestyle=dashed]{->}(A5){0.5}{120}{240}
+\psarc[linestyle=dashed]{->}(A5){0.5}{240}{0}
+\psdot[origin=A5](0.5;0)
+\psdot[origin=A5](0.5;120)
+\psdot[origin=A5](0.5;240)
+
+%\psStartPoint[B](6,6)
+\pnode(A3){T1}
+\psStartPoint[B](10,6)
+\psVector[arrows=-](0.5;-60)\psVector[arrows=-](2;-60)\psVector[arrows=-](0.5;-60)\psVector[arrows=-](0.5;-120)
+\psdot(A2)
+\psdot(A4)
+\psarc[linestyle=dashed]{<-}(A3){0.5}{60}{180}
+\psarc[linestyle=dashed]{<-}(A3){0.5}{180}{300}
+\psarc[linestyle=dashed]{<-}(A3){0.5}{300}{60}
+
+
+\uput[135](A2){$q$}
+\psarc[linestyle=dashed]{->}(B3){0.5}{120}{240}
+\psarc[linestyle=dashed]{->}(B3){0.5}{240}{0}
+\psarc[linestyle=dashed]{->}(B3){0.5}{0}{120}
+
+\psdot[origin=B3](0.5;0)
+\psdot[origin=B3](0.5;240)
+\psline[origin=B3](0.5;0)
+
+%extensions of r 
+\psStartPoint[C](10,6)
+\psVector[arrows=-](0.5;-60)\psVector[arrows=-](2;-60)\psVector[arrows=-](0.5;-60)
+\psVector[arrows=-](1.5;0)\psVector[arrows=-,linestyle=dashed](1;0)
+\psStartPoint[D](10,6)
+\psVector[arrows=-](0.5;-60)\psVector[arrows=-](2;-60)\psVector[arrows=-](0.5;-60)
+\psVector[arrows=-](1.5;-120)\psVector[arrows=-,linestyle=dashed](1;-120)
+
+%%%%%%%%%%%%%% DRAW THE LEFT PART OF THE TREE
+
+%upper part
+\psStartPoint[E](6,6)
+\psVector[arrows=-](1.5;180)\psVector[arrows=-](0.5;180)\psVector[arrows=-](0.5;120)\psVector[arrows=-,linecolor=red,linestyle=dashed](2;120)\psVector[arrows=-](0.5;120)\psVector[arrows=-](0.5;180)\psVector[arrows=-](1;180)\psVector[arrows=-,linestyle=dashed](1;180)
+\psStartPoint[F](6,6)
+\psVector[arrows=-](1.5;180)\psVector[arrows=-](0.5;180)\psVector[arrows=-](0.5;120)\psVector[arrows=-,linecolor=red,linestyle=dashed](2;120)\psVector[arrows=-](0.5;120)\psVector[arrows=-](0.5;60)\psVector[arrows=-](1;60)\psVector[arrows=-,linestyle=dashed](1;60)
+\uput[270](F4){$r$}
+\psdot(F6)
+\psarc[linestyle=dashed]{->}(E5){0.5}{60}{180}
+\psarc[linestyle=dashed]{->}(E5){0.5}{180}{300}
+\psarc[linestyle=dashed]{->}(E5){0.5}{300}{60}
+
+\uput[45](E1){$p$}
+\psStartPoint[G](4,6)
+\psVector[arrows=-](0.5;-120)\psVector[arrows=-,linestyle=dashed,linecolor=red](2;-120)\psVector[arrows=-](0.5;-120)\psVector[arrows=-](0.5;-180)\psVector[arrows=-](1;-180)\psVector[arrows=-,linestyle=dashed](1;-180)
+\uput[90](G2){$s$}
+\psStartPoint[H](4,6)
+\psVector[arrows=-](0.5;-120)\psVector[arrows=-,linecolor=red,linestyle=dashed](2;-120)\psVector[arrows=-](0.5;-120)\psVector[arrows=-](0.5;-60)\psVector[arrows=-](1;-60)\psVector[arrows=-,linestyle=dashed](1;-60)
+\psarc[linestyle=dashed]{->}(G3){0.5}{60}{180}
+\psarc[linestyle=dashed]{->}(G3){0.5}{180}{300}
+\psarc[linestyle=dashed]{->}(G3){0.5}{300}{60}
+
+\psarc[linestyle=dashed]{->}(E2){0.5}{0}{120}
+\psarc[linestyle=dashed]{->}(E2){0.5}{120}{240}
+\psarc[linestyle=dashed]{->}(E2){0.5}{240}{0}
+
+\pscurve[showpoints=false,linecolor=blue,linestyle=dashed]{-}(F3)(9,7)(tmp2)
+\pscurve[showpoints=false,linecolor=green,linestyle=dashed]{-}(G1)(11,5)(tmp2)
+
+\pscurve[showpoints=false,linecolor=blue,linestyle=dashed]{-}(F4)(9,8)(tmp1)
+\pscurve[showpoints=false,linecolor=green,linestyle=dashed]{-}(G2)(11,4)(tmp1)
+\psdot(B1)
+\psdot(B2)
+\psdot(G1)
+\psdot(G2)
+\psdot(G4)
+\psdot(H4)
+\psdot(E1)
+\psdot(E3)
+\psdot(E4)
+\psdot(E6)
+\psdot(tmp1)
+\psdot(tmp2)
+
+
+
+% Do the traversals now
+% Upper left tree
+%\psset{linestyle=none}
+\psStartPoint[TIP](4,6)
+\psVector[arrows=-,linestyle=solid](140;4)
+
+%%%%%%%%%%%% SECOND TREE %%%%%%%%%%%%%%%%%%
+
+%%%%% bottom part %%%%%
+%\psStartPoint[D](12,6)
+%\psVector[arrows=-](0.5;270)\psVector[arrows=-,linestyle=dashed,linecolor=red](2;270)\psVector[arrows=-](0.5;270)\psVector[arrows=-](1.5;210)\psVector[linestyle=dashed,arrows=-](1;210)
+%\psStartPoint[E](12,3)
+%\psVector[arrows=-](1.5;-30)\psVector[linestyle=dashed,arrows=-](1;-30)
+%\psarc[linestyle=dashed]{->}(D3){0.5}{90}{210}
+%\psarc[linestyle=dashed]{->}(D3){0.5}{210}{330}
+%\psarc[linestyle=dashed]{->}(D3){0.5}{330}{90}
+%\psdot[origin=D3](0.5;90)
+%\psdot[origin=D3](0.5;210)
+%\psdot[origin=D3](0.5;330)
+%\uput[45](D2){$q$}
+%
+%%%%% upper part %%%%%
+%\psStartPoint[F](12,6)
+%\psVector[arrows=-](1.5;150)\psVector[linestyle=dashed,arrows=-](1;150)
+%\psStartPoint[F](12,6)
+%\psVector[arrows=-](1.5;30)\psVector[linestyle=dashed,arrows=-](1;30)
+%\psarc[linestyle=dashed]{->}(D0){0.5}{150}{270}
+%\psarc[linestyle=dashed]{->}(D0){0.5}{270}{30}
+%\psarc[linestyle=dashed]{->}(D0){0.5}{30}{150}
+%\psdot[origin=D0](0.5;150)
+%\psdot[origin=D0](0.5;270)
+%\psdot[origin=D0](0.5;30)
+%\uput[315](D1){$r$}
+%
+%%\cnode[origin=B3](0.5;0){1pt}{P1}
+%\psset{origin=B3}
+%%\psset{origin={0,0}}
+%\pscurve[showpoints=false,linecolor=blue,linestyle=dashed]{-}(0.5;240)(1.5,-1)(4.5,0.5)(D2)
+%\pscurve[showpoints=false,linecolor=blue,linestyle=dashed]{-}(0.5;0)(3.5,1)(D1)
+%\psset{origin={0,0}}
+\end{pspicture}}
+\end{textblock}
+\end{document}

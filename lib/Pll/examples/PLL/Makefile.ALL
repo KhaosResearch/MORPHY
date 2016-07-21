@@ -1,0 +1,38 @@
+MAKE = make
+RM = rm -f
+ARCH1 = AVX
+ARCH2 = SSE3
+ARCH3 = AVX-PTHREADS
+ARCH4 = SSE3-PTHREADS
+ARCH5 = AVX-MPI
+ARCH6 = SSE3-MPI
+ARCH7 = ARM
+
+
+all: $(ARCH1) $(ARCH2) $(ARCH3) $(ARCH4) $(ARCH5) $(ARCH6) $(ARCH7)
+
+$(ARCH1): Makefile.$(ARCH1)
+	$(MAKE) -f $+
+
+$(ARCH2): Makefile.$(ARCH2)
+	$(MAKE) -f $+
+
+$(ARCH3): Makefile.$(ARCH3)
+	$(MAKE) -f $+
+
+$(ARCH4): Makefile.$(ARCH4)
+	$(MAKE) -f $+
+
+$(ARCH5): Makefile.$(ARCH5)
+	$(MAKE) -f $+
+
+$(ARCH6): Makefile.$(ARCH6)
+	$(MAKE) -f $+
+
+$(ARCH7): Makefile.$(ARCH7)
+	$(MAKE) -f $+
+
+clean:
+	-$(RM) pll-$(ARCH1) pll-$(ARCH2) pll-$(ARCH3) pll-$(ARCH4) pll-$(ARCH5) pll-$(ARCH6) pll-$(ARCH7)
+
+.PHONY: all clean

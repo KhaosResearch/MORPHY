@@ -1,0 +1,21 @@
+CC = gcc 
+MAKE = make
+LIBPATH = /usr/local/lib/
+INCPATH = /usr/local/include/pll/
+BIN = pll
+PLL = pll
+ARCH = avx-pthreads
+LIBRARIES = -l$(PLL)-$(ARCH) -lm -lpthread
+TARGET = $(BIN)-$(ARCH)
+RM = rm -f
+
+all: $(BIN)-$(ARCH)
+
+$(BIN)-$(ARCH): main.c
+	@echo "==> Building PLL example ($(BIN)-$(ARCH))"
+	$(CC) -D_USE_PTHREADS $+ -L $(LIBPATH) -I $(INCPATH) $(LIBRARIES) -o $@ 
+
+clean : 
+	-$(RM) $(BIN)-$(ARCH)
+
+.PHONY: all clean

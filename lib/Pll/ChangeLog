@@ -1,0 +1,24 @@
+2015-03-13  Diego Darriba <Diego.Darriba@h-its.org>
+
+		* Release 1.0.10
+		* Implemented TBR moves in rearrangement search functions
+		* Added pllGetSubtreeNodes function
+		* Removed perGeneBranchLengths in pllInstance
+			(perGeneBranchLengths in the partitionList should be used instead)
+
+2015-03-09  Tomas Flouri <Tomas.Flouri@h-its.org>
+
+		* Release 1.0.9
+		* Added support for multiline FASTA.
+
+2015-03-05  Diego Darriba <Diego.Darriba@h-its.org>
+
+		* Release 1.0.8
+		* Fixed bug in pllSetBranchLength
+		  partitionList was added for taking the correct fracchange
+
+2015-01-06  Tomas Flouri <Tomas.Flouri@h-its.org>
+        
+        * Release 1.0.2
+        * Added new protein subst model stmtREV  
+        See http://datadryad.org/resource/doi:10.5061/dryad.7b470

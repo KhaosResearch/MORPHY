@@ -1,0 +1,69 @@
+#archnavbar{height:40px!important;padding:10px 15px!important;background:#333!important;border-bottom:5px #08c solid!important}
+
+#archnavbarlogo{float:left!important;margin:0!important;padding:0!important;height:40px!important;width:190px!important;background:url(pll-logo.png) no-repeat!important}
+
+#archnavbarlogo h1{margin:0!important;padding:0!important;text-indent:-9999px!important}
+
+#archnavbarlogo a{display:block!important;height:40px!important;width:190px!important}
+
+#archnavbarlist{display:inline!important;float:right!important;list-style:none!important;margin:0!important;padding:0!important}
+
+#archnavbarlist li{float:left!important;font-size:14px!important;font-family:sans-serif!important;line-height:45px!important;padding-right:15px!important;padding-left:15px!important}
+
+#archnavbarlist li a{color:#999;font-weight:bold!important;text-decoration:none!important}
+
+#archnavbarlist li a:hover{color:white!important;text-decoration:underline!important}
+
+body, table, div, p, dl {
+        font-family: Lucida Grande, Verdana, Geneva, Arial, sans-serif;
+                font-size: 13px;
+                        line-height: 1.3;
+                        }
+dt {
+    font-weight: bold;
+    font-size: 1.05em;
+    color: #0057ae;
+}
+h1, h2, h3, h4
+{
+    padding: 0;
+    text-align: left;
+    font-weight: bold;
+    color: #f7800a;
+    background: transparent;
+}
+h1 {
+    margin: 0 0 0.3em 0;
+    font-size: 1.7em;
+}
+h2, h3, h4 {
+    margin: 1.3em 0 0 0.3em
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+h3 {
+    font-size: 1.4em;
+}
+
+h4 {
+    font-size: 1.3em;
+}
+
+h5 {
+    font-size: 1.2em;
+}
+
+h2.groupheader {
+	border-bottom: 1px solid #879ECB;
+    color: #f7800a;
+	font-size: 150%;
+	font-weight: normal;
+	margin-top: 1.75em;
+	padding-top: 8px;
+	padding-bottom: 4px;
+	width: 100%;
+}
+

@@ -1,0 +1,11 @@
+Some examples for using PLL
+
+PLL/
+
+A simple example that loads a multiple sequence alignment from a PHYLIP file, a starting tree from
+a newick file and a text file that describes partition and substitution model assignment. It then
+evaluates the log likelihood of that tree, and performs several SPR moves to obtain a topology that
+yields a better likelihood.
+
+complexTest/
+

@@ -1,0 +1,327 @@
+# A simple makefile generator by KiSoft, 2008. mailto: kisoft@rambler.ru
+# version: 0.3.12.1
+
+# Project Variables start
+CPP=g++
+CC=gcc
+LD=g++
+LIB=ar
+WINDRES=
+# Project Variables end
+
+# Target: Debug
+
+OBJS_DEBUG=obj/Debug/EvaluationObj.o obj/Debug/F84Model.o obj/Debug/FIDModel.o obj/Debug/GTRModel.o obj/Debug/Menus.o obj/Debug/PairAligner.o obj/Debug/PairInitializer.o obj/Debug/Parameters.o obj/Debug/ProbabilityObject.o obj/Debug/Sequences.o obj/Debug/TN93Model.o obj/Debug/Tokenizer.o obj/Debug/Tree.o obj/Debug/TripleAligner.o obj/Debug/TripleInitializer.o obj/Debug/Triplet.o obj/Debug/main.o obj/Debug/matrix_exponential.o
+
+Debug: bin/Debug/sMSA_v27
+
+bin/Debug/sMSA_v27: $(OBJS_DEBUG)
+	@echo Building console executable bin/Debug/sMSA_v27
+	@g++  -o bin/Debug/sMSA_v27 $(OBJS_DEBUG)   -lgomp 
+
+obj/Debug/EvaluationObj.o: EvaluationObj.cpp
+	@echo Compiling: EvaluationObj.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c EvaluationObj.cpp -o obj/Debug/EvaluationObj.o
+
+obj/Debug/F84Model.o: F84Model.cpp
+	@echo Compiling: F84Model.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c F84Model.cpp -o obj/Debug/F84Model.o
+
+obj/Debug/FIDModel.o: FIDModel.cpp
+	@echo Compiling: FIDModel.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c FIDModel.cpp -o obj/Debug/FIDModel.o
+
+obj/Debug/GTRModel.o: GTRModel.cpp
+	@echo Compiling: GTRModel.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c GTRModel.cpp -o obj/Debug/GTRModel.o
+
+obj/Debug/Menus.o: Menus.cpp
+	@echo Compiling: Menus.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c Menus.cpp -o obj/Debug/Menus.o
+
+obj/Debug/PairAligner.o: PairAligner.cpp
+	@echo Compiling: PairAligner.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c PairAligner.cpp -o obj/Debug/PairAligner.o
+
+obj/Debug/PairInitializer.o: PairInitializer.cpp
+	@echo Compiling: PairInitializer.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c PairInitializer.cpp -o obj/Debug/PairInitializer.o
+
+obj/Debug/Parameters.o: Parameters.cpp
+	@echo Compiling: Parameters.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c Parameters.cpp -o obj/Debug/Parameters.o
+
+obj/Debug/ProbabilityObject.o: ProbabilityObject.cpp
+	@echo Compiling: ProbabilityObject.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c ProbabilityObject.cpp -o obj/Debug/ProbabilityObject.o
+
+obj/Debug/Sequences.o: Sequences.cpp
+	@echo Compiling: Sequences.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c Sequences.cpp -o obj/Debug/Sequences.o
+
+obj/Debug/TN93Model.o: TN93Model.cpp
+	@echo Compiling: TN93Model.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c TN93Model.cpp -o obj/Debug/TN93Model.o
+
+obj/Debug/Tokenizer.o: Tokenizer.cpp
+	@echo Compiling: Tokenizer.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c Tokenizer.cpp -o obj/Debug/Tokenizer.o
+
+obj/Debug/Tree.o: Tree.cpp
+	@echo Compiling: Tree.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c Tree.cpp -o obj/Debug/Tree.o
+
+obj/Debug/TripleAligner.o: TripleAligner.cpp
+	@echo Compiling: TripleAligner.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c TripleAligner.cpp -o obj/Debug/TripleAligner.o
+
+obj/Debug/TripleInitializer.o: TripleInitializer.cpp
+	@echo Compiling: TripleInitializer.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c TripleInitializer.cpp -o obj/Debug/TripleInitializer.o
+
+obj/Debug/Triplet.o: Triplet.cpp
+	@echo Compiling: Triplet.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c Triplet.cpp -o obj/Debug/Triplet.o
+
+obj/Debug/main.o: main.cpp
+	@echo Compiling: main.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c main.cpp -o obj/Debug/main.o
+
+obj/Debug/matrix_exponential.o: matrix_exponential.cpp
+	@echo Compiling: matrix_exponential.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -g     -c matrix_exponential.cpp -o obj/Debug/matrix_exponential.o
+
+EvaluationObj.cpp: EvaluationObj.h
+
+EvaluationObj.h: TypeDefinitions.h Utils.h
+
+Utils.h: BoostRandomGenerator.h
+
+F84Model.cpp: F84Model.h
+
+F84Model.h: Mappings.h matrix_exponential.hpp
+
+FIDModel.cpp: FIDModel.h
+
+FIDModel.h: Mappings.h
+
+GTRModel.cpp: GTRModel.h
+
+GTRModel.h: Mappings.h matrix_exponential.hpp
+
+Menus.cpp: Menus.h
+
+Menus.h: TripleInitializer.h PairInitializer.h Utils.h TypeDefinitions.h EvaluationObj.h
+
+TripleInitializer.h: Utils.h TypeDefinitions.h Parameters.h Sequences.h Tree.h F84Model.h TN93Model.h GTRModel.h TripleAligner.h
+
+Parameters.h: Mappings.h
+
+Sequences.h: TypeDefinitions.h Mappings.h Utils.h
+
+Tree.h: Sequences.h
+
+TN93Model.h: Mappings.h matrix_exponential.hpp
+
+TripleAligner.h: Parameters.h Triplet.h ProbabilityObject.h BoostRandomGenerator.h F84Model.h TN93Model.h GTRModel.h TypeDefinitions.h Utils.h
+
+Triplet.h: FIDModel.h Mappings.h Utils.h
+
+ProbabilityObject.h: Utils.h TypeDefinitions.h
+
+PairInitializer.h: Utils.h TypeDefinitions.h Parameters.h Sequences.h Tree.h F84Model.h TN93Model.h GTRModel.h PairAligner.h
+
+PairAligner.h: Parameters.h Triplet.h ProbabilityObject.h BoostRandomGenerator.h F84Model.h TN93Model.h GTRModel.h TypeDefinitions.h Utils.h
+
+PairAligner.cpp: PairAligner.h
+
+PairInitializer.cpp: PairInitializer.h
+
+Parameters.cpp: Parameters.h
+
+ProbabilityObject.cpp: ProbabilityObject.h
+
+Sequences.cpp: Sequences.h
+
+TN93Model.cpp: TN93Model.h
+
+Tokenizer.cpp: Tokenizer.h
+
+Tree.cpp: Tree.h
+
+TripleAligner.cpp: TripleAligner.h
+
+TripleInitializer.cpp: TripleInitializer.h
+
+Triplet.cpp: Triplet.h
+
+main.cpp: Menus.h
+
+matrix_exponential.cpp: matrix_exponential.hpp
+
+.PHONY: clean_Debug
+
+clean_Debug: 
+	@echo Delete $(OBJS_DEBUG) bin/Debug/sMSA_v27
+	-@rm -f $(OBJS_DEBUG) bin/Debug/sMSA_v27
+
+
+
+# Target: Release
+
+OBJS_RELEASE=obj/Debug/EvaluationObj.o obj/Debug/F84Model.o obj/Debug/FIDModel.o obj/Debug/GTRModel.o obj/Debug/Menus.o obj/Debug/PairAligner.o obj/Debug/PairInitializer.o obj/Debug/Parameters.o obj/Debug/ProbabilityObject.o obj/Debug/Sequences.o obj/Debug/TN93Model.o obj/Debug/Tokenizer.o obj/Debug/Tree.o obj/Debug/TripleAligner.o obj/Debug/TripleInitializer.o obj/Debug/Triplet.o obj/Debug/main.o obj/Debug/matrix_exponential.o obj/Release/EvaluationObj.o obj/Release/F84Model.o obj/Release/FIDModel.o obj/Release/GTRModel.o obj/Release/Menus.o obj/Release/PairAligner.o obj/Release/PairInitializer.o obj/Release/Parameters.o obj/Release/ProbabilityObject.o obj/Release/Sequences.o obj/Release/TN93Model.o obj/Release/Tokenizer.o obj/Release/Tree.o obj/Release/TripleAligner.o obj/Release/TripleInitializer.o obj/Release/Triplet.o obj/Release/main.o obj/Release/matrix_exponential.o
+
+Release: bin/Release/sMSA_v27
+
+bin/Release/sMSA_v27: $(OBJS_RELEASE)
+	@echo Building console executable bin/Release/sMSA_v27
+	@g++  -o bin/Release/sMSA_v27 $(OBJS_RELEASE)  -s  -lgomp 
+
+obj/Release/EvaluationObj.o: EvaluationObj.cpp
+	@echo Compiling: EvaluationObj.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c EvaluationObj.cpp -o obj/Release/EvaluationObj.o
+
+obj/Release/F84Model.o: F84Model.cpp
+	@echo Compiling: F84Model.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c F84Model.cpp -o obj/Release/F84Model.o
+
+obj/Release/FIDModel.o: FIDModel.cpp
+	@echo Compiling: FIDModel.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c FIDModel.cpp -o obj/Release/FIDModel.o
+
+obj/Release/GTRModel.o: GTRModel.cpp
+	@echo Compiling: GTRModel.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c GTRModel.cpp -o obj/Release/GTRModel.o
+
+obj/Release/Menus.o: Menus.cpp
+	@echo Compiling: Menus.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c Menus.cpp -o obj/Release/Menus.o
+
+obj/Release/PairAligner.o: PairAligner.cpp
+	@echo Compiling: PairAligner.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c PairAligner.cpp -o obj/Release/PairAligner.o
+
+obj/Release/PairInitializer.o: PairInitializer.cpp
+	@echo Compiling: PairInitializer.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c PairInitializer.cpp -o obj/Release/PairInitializer.o
+
+obj/Release/Parameters.o: Parameters.cpp
+	@echo Compiling: Parameters.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c Parameters.cpp -o obj/Release/Parameters.o
+
+obj/Release/ProbabilityObject.o: ProbabilityObject.cpp
+	@echo Compiling: ProbabilityObject.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c ProbabilityObject.cpp -o obj/Release/ProbabilityObject.o
+
+obj/Release/Sequences.o: Sequences.cpp
+	@echo Compiling: Sequences.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c Sequences.cpp -o obj/Release/Sequences.o
+
+obj/Release/TN93Model.o: TN93Model.cpp
+	@echo Compiling: TN93Model.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c TN93Model.cpp -o obj/Release/TN93Model.o
+
+obj/Release/Tokenizer.o: Tokenizer.cpp
+	@echo Compiling: Tokenizer.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c Tokenizer.cpp -o obj/Release/Tokenizer.o
+
+obj/Release/Tree.o: Tree.cpp
+	@echo Compiling: Tree.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c Tree.cpp -o obj/Release/Tree.o
+
+obj/Release/TripleAligner.o: TripleAligner.cpp
+	@echo Compiling: TripleAligner.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c TripleAligner.cpp -o obj/Release/TripleAligner.o
+
+obj/Release/TripleInitializer.o: TripleInitializer.cpp
+	@echo Compiling: TripleInitializer.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c TripleInitializer.cpp -o obj/Release/TripleInitializer.o
+
+obj/Release/Triplet.o: Triplet.cpp
+	@echo Compiling: Triplet.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c Triplet.cpp -o obj/Release/Triplet.o
+
+obj/Release/main.o: main.cpp
+	@echo Compiling: main.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c main.cpp -o obj/Release/main.o
+
+obj/Release/matrix_exponential.o: matrix_exponential.cpp
+	@echo Compiling: matrix_exponential.cpp
+	@g++ -Wall -fexceptions -lgomp -fopenmp -std=gnu++0x  -O2     -c matrix_exponential.cpp -o obj/Release/matrix_exponential.o
+
+EvaluationObj.cpp: EvaluationObj.h
+
+EvaluationObj.h: TypeDefinitions.h Utils.h
+
+Utils.h: BoostRandomGenerator.h
+
+F84Model.cpp: F84Model.h
+
+F84Model.h: Mappings.h matrix_exponential.hpp
+
+FIDModel.cpp: FIDModel.h
+
+FIDModel.h: Mappings.h
+
+GTRModel.cpp: GTRModel.h
+
+GTRModel.h: Mappings.h matrix_exponential.hpp
+
+Menus.cpp: Menus.h
+
+Menus.h: TripleInitializer.h PairInitializer.h Utils.h TypeDefinitions.h EvaluationObj.h
+
+TripleInitializer.h: Utils.h TypeDefinitions.h Parameters.h Sequences.h Tree.h F84Model.h TN93Model.h GTRModel.h TripleAligner.h
+
+Parameters.h: Mappings.h
+
+Sequences.h: TypeDefinitions.h Mappings.h Utils.h
+
+Tree.h: Sequences.h
+
+TN93Model.h: Mappings.h matrix_exponential.hpp
+
+TripleAligner.h: Parameters.h Triplet.h ProbabilityObject.h BoostRandomGenerator.h F84Model.h TN93Model.h GTRModel.h TypeDefinitions.h Utils.h
+
+Triplet.h: FIDModel.h Mappings.h Utils.h
+
+ProbabilityObject.h: Utils.h TypeDefinitions.h
+
+PairInitializer.h: Utils.h TypeDefinitions.h Parameters.h Sequences.h Tree.h F84Model.h TN93Model.h GTRModel.h PairAligner.h
+
+PairAligner.h: Parameters.h Triplet.h ProbabilityObject.h BoostRandomGenerator.h F84Model.h TN93Model.h GTRModel.h TypeDefinitions.h Utils.h
+
+PairAligner.cpp: PairAligner.h
+
+PairInitializer.cpp: PairInitializer.h
+
+Parameters.cpp: Parameters.h
+
+ProbabilityObject.cpp: ProbabilityObject.h
+
+Sequences.cpp: Sequences.h
+
+TN93Model.cpp: TN93Model.h
+
+Tokenizer.cpp: Tokenizer.h
+
+Tree.cpp: Tree.h
+
+TripleAligner.cpp: TripleAligner.h
+
+TripleInitializer.cpp: TripleInitializer.h
+
+Triplet.cpp: Triplet.h
+
+main.cpp: Menus.h
+
+matrix_exponential.cpp: matrix_exponential.hpp
+
+.PHONY: clean_Release
+
+clean_Release: 
+	@echo Delete $(OBJS_RELEASE) bin/Release/sMSA_v27
+	-@rm -f $(OBJS_RELEASE) bin/Release/sMSA_v27
+
+
+

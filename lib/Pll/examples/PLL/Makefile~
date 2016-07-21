@@ -1,0 +1,16 @@
+CC = gcc 
+MAKE = make
+BIN = pll
+PLL = pll
+ARCH = sse3
+LIBRARIES = -l$(PLL)-$(ARCH) -lm
+TARGET = $(BIN)-$(ARCH)
+RM = rm -f
+
+$(BIN)-$(ARCH): test.c
+	$(CC) $+  $(LIBRARIES) -o $@ 
+
+clean : 
+	-$(RM) test
+
+.PHONY: all clean

@@ -1,0 +1,22 @@
+CC = gcc 
+MAKE = make
+LIBPATH = ../../src
+INCPATH = ../../src
+BIN = pll
+PLL = pll
+ARCH = AVX
+LIBRARIES = -l$(PLL)-$(ARCH) -lm
+TARGET = $(BIN)-$(ARCH)
+RM = rm -f
+
+all: pll-avx-shared
+
+pll-avx-shared: main.c
+	$(MAKE) -C $(LIBPATH) -f Makefile.AVX.shared
+	@echo "==> Building PLL example (pll-avx-shared)"
+	$(CC) $+ -L $(LIBPATH) -I $(INCPATH) $(LIBRARIES) -o $@ 
+
+clean : 
+	-$(RM) $(BIN)-$(ARCH)
+
+.PHONY: all clean

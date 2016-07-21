@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="BoostRandomGenerator.h" open="0" top="0" tabpos="0">
+		<Cursor position="1027" topLine="0" />
+	</File>
+	<File name="EvaluationObj.cpp" open="0" top="0" tabpos="7">
+		<Cursor position="2227" topLine="0" />
+	</File>
+	<File name="EvaluationObj.h" open="0" top="0" tabpos="0">
+		<Cursor position="2578" topLine="0" />
+	</File>
+	<File name="F84Model.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1204" topLine="0" />
+	</File>
+	<File name="FIDModel.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="895" topLine="20" />
+	</File>
+	<File name="FIDModel.h" open="0" top="0" tabpos="0">
+		<Cursor position="2582" topLine="38" />
+	</File>
+	<File name="GTRModel.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1884" topLine="0" />
+	</File>
+	<File name="GTRModel.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="6" />
+	</File>
+	<File name="Mappings.h" open="0" top="0" tabpos="13">
+		<Cursor position="11747" topLine="0" />
+	</File>
+	<File name="Menus.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="4506" topLine="27" />
+	</File>
+	<File name="Menus.h" open="1" top="0" tabpos="5">
+		<Cursor position="4436" topLine="0" />
+	</File>
+	<File name="PairAligner.cpp" open="1" top="0" tabpos="8">
+		<Cursor position="28550" topLine="0" />
+	</File>
+	<File name="PairAligner.h" open="0" top="0" tabpos="0">
+		<Cursor position="10173" topLine="84" />
+	</File>
+	<File name="PairInitializer.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="14543" topLine="0" />
+	</File>
+	<File name="PairInitializer.h" open="0" top="0" tabpos="12">
+		<Cursor position="6345" topLine="0" />
+	</File>
+	<File name="Parameters.cpp" open="0" top="0" tabpos="6">
+		<Cursor position="5120" topLine="3" />
+	</File>
+	<File name="Parameters.h" open="0" top="0" tabpos="7">
+		<Cursor position="6588" topLine="51" />
+	</File>
+	<File name="ProbabilityObject.cpp" open="0" top="0" tabpos="14">
+		<Cursor position="8114" topLine="71" />
+	</File>
+	<File name="ProbabilityObject.h" open="0" top="0" tabpos="8">
+		<Cursor position="4707" topLine="24" />
+	</File>
+	<File name="Sequences.cpp" open="0" top="0" tabpos="8">
+		<Cursor position="772" topLine="0" />
+	</File>
+	<File name="Sequences.h" open="0" top="0" tabpos="8">
+		<Cursor position="3103" topLine="21" />
+	</File>
+	<File name="TN93Model.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1245" topLine="0" />
+	</File>
+	<File name="TN93Model.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="2" />
+	</File>
+	<File name="Tree.cpp" open="0" top="0" tabpos="16">
+		<Cursor position="4220" topLine="0" />
+	</File>
+	<File name="Tree.h" open="0" top="0" tabpos="15">
+		<Cursor position="3331" topLine="0" />
+	</File>
+	<File name="TripleAligner.cpp" open="1" top="0" tabpos="9">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="TripleAligner.h" open="1" top="0" tabpos="10">
+		<Cursor position="14574" topLine="0" />
+	</File>
+	<File name="TripleInitializer.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="415" topLine="0" />
+	</File>
+	<File name="TripleInitializer.h" open="0" top="0" tabpos="0">
+		<Cursor position="7923" topLine="61" />
+	</File>
+	<File name="Triplet.cpp" open="0" top="0" tabpos="11">
+		<Cursor position="0" topLine="9" />
+	</File>
+	<File name="Triplet.h" open="0" top="0" tabpos="7">
+		<Cursor position="3828" topLine="33" />
+	</File>
+	<File name="TypeDefinitions.h" open="1" top="0" tabpos="6">
+		<Cursor position="4872" topLine="0" />
+	</File>
+	<File name="Utils.h" open="1" top="0" tabpos="4">
+		<Cursor position="12453" topLine="0" />
+	</File>
+	<File name="main.cpp" open="1" top="1" tabpos="7">
+		<Cursor position="326" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

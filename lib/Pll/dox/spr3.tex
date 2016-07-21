@@ -1,0 +1,164 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                            %
+% PLL Documentation sketches %
+%                            %
+% Author - Tomas Flouri      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[oneside,12pt]{book}
+%\usepackage[top=1cm,bottom=3cm,height=14cm,paperheight=14cm,width=18cm,paperwidth=18cm]{geometry}
+\usepackage[paperheight=16cm,paperwidth=23cm]{geometry}
+\usepackage[absolute]{textpos}
+%
+\usepackage[pst,vaucanson-g]{xcolor}
+% vlined
+\usepackage{pstricks}
+\usepackage{auto-pst-pdf,pstricks-add}
+%\usepackage{enumerate}
+\usepackage{pstricks}
+\usepackage{pst-tree}
+%\usepackage{subfigure}
+\usepackage{graphicx}
+%\usepackage{subfig}
+%\usepackage{tabularx}
+%\usepackage{pstricks-add}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{vaucanson-g}
+%\usepackage{pstcol}
+\usepackage{url}
+\usepackage{comment}
+\usepackage{a4wide}
+
+\thispagestyle{empty}
+\begin{document}
+\begin{textblock}{3}(0,0.5)
+\scalebox{1.5}{
+\begin{pspicture}[showgrid=false](15,11)
+% Central branch and top right clade
+\psStartPoint[A](4,6) % Following nodes will have the base name A
+\psVector[arrows=-](6;0)\psVector[arrows=-](2.5;60)%\psVector[arrows=-,linecolor=red](2.5;0)\psVector[arrows=-,linestyle=none](2.5;-180)\psVector[arrows=-,linecolor=red](2.5;120)
+% Top left clade
+\psStartPoint[B](4,6)
+\psVector[arrows=-](3;120)\psVector[arrows=-](2.5;180)\psVector[arrows=-](2.5;0)\psVector[arrows=-](2.5;60)
+% Bottom left clade
+\psStartPoint[C](4,6)
+\psVector[arrows=-](3;240)\psVector[arrows=-](2.5;180)\psVector[arrows=-](2.5;0)\psVector[arrows=-](2.5;300)
+% Bottom right clade
+\psStartPoint[D](10,6)
+\psVector[arrows=-](2.5;300)%\psVector[arrows=-](2.5;0)\psVector[arrows=-](2.5;180)\psVector[arrows=-](2.5;240)
+
+% left central node
+\psarc[linestyle=dashed]{->}(A0){0.5}{0}{120}
+\psarc[linestyle=dashed]{->}(A0){0.5}{120}{240}
+\psarc[linestyle=dashed]{->}(A0){0.5}{240}{0}
+\psStartPoint[N11](4,6)
+\psVector[linestyle=none,arrows=-](0.5;0)
+\psStartPoint[N12](4,6)
+\psVector[linestyle=none,arrows=-](0.5;120)
+\psStartPoint[N13](4,6)
+\psVector[linestyle=none,arrows=-](0.5;240)
+\psdot(N111)
+\psdot(N121)
+\psdot(N131)
+%\uput[300](N111){$p_1$}
+%\uput[60](N121){$p_2$}
+%\uput[180](N131){$p_3$}
+
+% right central node
+\psarc[linestyle=dashed]{->}(A1){0.5}{60}{180}
+\psarc[linestyle=dashed]{->}(A1){0.5}{180}{300}
+\psarc[linestyle=dashed]{->}(A1){0.5}{300}{60}
+\psStartPoint[N21](10,6)
+\psVector[linestyle=none,arrows=-](0.5;60)
+\psStartPoint[N22](10,6)
+\psVector[linestyle=none,arrows=-](0.5;180)
+\psStartPoint[N23](10,6)
+\psVector[linestyle=none,arrows=-](0.5;300)
+\psdot(N211)
+\psdot(N221)
+\psdot(N231)
+%\uput[120](N211){\textcolor{blue}{$p$}}
+
+%% right upper node
+%\psarc[linestyle=dashed]{->}(A2){0.5}{0}{120}
+%\psarc[linestyle=dashed]{->}(A2){0.5}{120}{240}
+%\psarc[linestyle=dashed]{->}(A2){0.5}{240}{0}
+%\psStartPoint[N31](10,6)
+%\psVector[linestyle=none,arrows=-](3;60)\psVector[linestyle=none,arrows=-](0.5;0)
+%\psStartPoint[N32](10,6)
+%\psVector[linestyle=none,arrows=-](3;60)\psVector[linestyle=none,arrows=-](0.5;120)
+%\psStartPoint[N33](10,6)
+%\psVector[linestyle=none,arrows=-](3;60)\psVector[linestyle=none,arrows=-](0.5;240)
+%\psdot(N312)
+%\psdot(N322)
+%\psdot(N332)
+%
+%\psdot[linecolor=red](A3)
+%\uput[0](A3){$\ell_6$}
+%\psdot[linecolor=red](A5)
+%\uput[120](A5){$\ell_5$}
+\psdot(A2)
+\uput[60](A2){$\ell_8$}
+
+% left upper node
+\psarc[linestyle=dashed]{->}(B1){0.5}{60}{180}
+\psarc[linestyle=dashed]{->}(B1){0.5}{180}{300}
+\psarc[linestyle=dashed]{->}(B1){0.5}{300}{60}
+\psStartPoint[N41](4,6)
+\psVector[linestyle=none,arrows=-](3;120)\psVector[linestyle=none,arrows=-](0.5;60)
+\psStartPoint[N42](4,6)
+\psVector[linestyle=none,arrows=-](3;120)\psVector[linestyle=none,arrows=-](0.5;180)
+\psStartPoint[N43](4,6)
+\psVector[linestyle=none,arrows=-](3;120)\psVector[linestyle=none,arrows=-](0.5;300)
+\psdot(N412)
+\psdot(N422)
+\psdot(N432)
+
+\psdot(B2)
+\uput[180](B2){$\ell_2$}
+\psdot(B4)
+\uput[60](B4){$\ell_1$}
+
+% left lower node
+\psarc[linestyle=dashed]{->}(C1){0.5}{60}{180}
+\psarc[linestyle=dashed]{->}(C1){0.5}{180}{300}
+\psarc[linestyle=dashed]{->}(C1){0.5}{300}{60}
+\psStartPoint[N51](4,6)
+\psVector[linestyle=none,arrows=-](3;240)\psVector[linestyle=none,arrows=-](0.5;60)
+\psStartPoint[N52](4,6)
+\psVector[linestyle=none,arrows=-](3;240)\psVector[linestyle=none,arrows=-](0.5;180)
+\psStartPoint[N53](4,6)
+\psVector[linestyle=none,arrows=-](3;240)\psVector[linestyle=none,arrows=-](0.5;300)
+\psdot(N512)
+\psdot(N522)
+\psdot(N532)
+
+\psdot(C2)
+\uput[180](C2){$\ell_3$}
+\psdot(C4)
+\uput[300](C4){$\ell_4$}
+
+%% right lower node
+%\psarc[linestyle=dashed]{->}(D1){0.5}{0}{120}
+%\psarc[linestyle=dashed]{->}(D1){0.5}{120}{240}
+%\psarc[linestyle=dashed]{->}(D1){0.5}{240}{0}
+%\psStartPoint[N61](10,6)
+%\psVector[linestyle=none,arrows=-](3;300)\psVector[linestyle=none,arrows=-](0.5;0)
+%\psStartPoint[N62](10,6)
+%\psVector[linestyle=none,arrows=-](3;300)\psVector[linestyle=none,arrows=-](0.5;120)
+%\psStartPoint[N63](10,6)
+%\psVector[linestyle=none,arrows=-](3;300)\psVector[linestyle=none,arrows=-](0.5;240)
+%\psdot(N612)
+%\psdot(N622)
+%\psdot(N632)
+%
+%\psdot(D2)\psdot(D4)
+%\uput[0](D2){$\ell_8$}
+%\uput[240](D4){$\ell_7$}
+\psdot(D1)
+\uput[300](D1){$\ell_7$}
+%
+
+\end{pspicture}}
+\end{textblock}
+\end{document}

@@ -1,0 +1,88 @@
+# Makefile August 2006 by Alexandros Stamatakis
+# Makefile cleanup October 2006, Courtesy of Peter Cordes <peter@cordes.ca>
+
+CC = clang
+
+CFLAGS = -Wall  -D_OPTIMIZED_FUNCTIONS -D__SIM_SSE3 -msse3 -D__AVX #-D_OPTIMIZED_FUNCTIONS -D_GNU_SOURCE -O2 -fomit-frame-pointer -funroll-loops -D__AVX -Wall -Wunused-parameter -Wredundant-decls  -Wreturn-type  -Wswitch-default -Wunused-value -Wimplicit  -Wimplicit-function-declaration  -Wimplicit-int -Wimport  -Wunused-label -Wno-int-to-pointer-cast -Wbad-function-cast  -Wmissing-declarations -Wmissing-prototypes  -Wnested-externs  -Wold-style-definition -Wstrict-prototypes  -Wpointer-sign -Wextra -Wredundant-decls -Wunused -Wunused-parameter -Wunused-value  -Wunused-variable -Wformat  -Wformat-nonliteral -Wparentheses -Wsequence-point -Wuninitialized -Wbad-function-cast #-Wunused-function -Wundef -Wunused
+
+
+LIBRARIES = -lm
+
+RM = rm -f
+
+objs    = lexer.o stack.o queue.o hash.o newick.o ssort.o phylip.o part.o utils.o optimizeModel.o avxLikelihood.o fastDNAparsimony.o ../../trash.o  ../../topologies.o ../../treeIO.o models.o ../../evaluatePartialGenericSpecial.o evaluateGenericSpecial.o newviewGenericSpecial.o ../../makenewzGenericSpecial.o ../../bipartitionList.o ../../restartHashTable.o ../../randomTree.o ../../recom.o ../../mem_alloc.o main.o examlSearch.o
+
+all : example
+
+GLOBAL_DEPS = ../../axml.h ../../globalVariables.h
+
+example : $(objs)
+	$(CC) -o example $(objs) $(LIBRARIES) 
+
+examlSearch.o : examlSearch.c $(GLOBAL_DEPS)
+	$(CC) $(CFLAGS) -c -o examlSearch.o examlSearch.c
+
+
+avxLikelihood.o : ../../avxLikelihood.c $(GLOBAL_DEPS)
+	$(CC) $(CFLAGS) -mavx -c -o avxLikelihood.o ../../avxLikelihood.c
+
+fastDNAparsimony.o : ../../fastDNAparsimony.c $(GLOBAL_DEPS)
+	$(CC) $(CFLAGS) -mavx -c -o fastDNAparsimony.o ../../fastDNAparsimony.c
+
+models.o : ../../models.c $(GLOBAL_DEPS)
+	$(CC) $(CFLAGS) -c -o models.o ../../models.c
+
+optimizeModel.o : ../../optimizeModel.c $(GLOBAL_DEPS)
+	$(CC) $(CFLAGS) -c -o optimizeModel.o ../../optimizeModel.c
+
+evaluateGenericSpecial.o : ../../evaluateGenericSpecial.c $(GLOBAL_DEPS)
+	$(CC) $(CFLAGS) -c -o evaluateGenericSpecial.o ../../evaluateGenericSpecial.c
+
+newviewGenericSpecial.o : ../../newviewGenericSpecial.c $(GLOBAL_DEPS)
+	$(CC) $(CFLAGS) -c -o newviewGenericSpecial.o ../../newviewGenericSpecial.c
+
+stack.o : ../../stack.c $(GLOBAL_DEPS)
+	$(CC) $(CFLAGS) -c -o stack.o ../../stack.c
+
+hash.o : ../../hash.c $(GLOBAL_DEPS)
+	$(CC) $(CFLAGS) -c -o hash.o ../../hash.c
+
+ssort.o: ../../parser/phylip/ssort.c
+	$(CC) $(CFLAGS) -c -o ssort.o ../../parser/phylip/ssort.c
+
+newick.o : ../../parser/newick/newick.c $(GLOBAL_DEPS)
+	$(CC) $(CFLAGS) -c -o newick.o ../../parser/newick/newick.c
+
+phylip.o : ../../parser/phylip/phylip.c $(GLOBAL_DEPS)
+	$(CC) $(CFLAGS) -c -o phylip.o ../../parser/phylip/phylip.c
+
+lexer.o: ../../lexer.c
+	$(CC) $(CFLAGS) -c -o lexer.o ../../lexer.c
+
+part.o : ../../parser/partition/part.c
+	$(CC) $(CFLAGS) -c -o part.o ../../parser/partition/part.c
+
+queue.o : ../../queue.c $(GLOBAL_DEPS)
+	$(CC) $(CFLAGS) -c -o queue.o ../../queue.c
+
+utils.o : ../../utils.c $(GLOBAL_DEPS)
+	$(CC) $(CFLAGS) -c -o utils.o ../../utils.c
+
+treeIO.o : ../../treeIO.c $(GLOBAL_DEPS)
+	$(CC) $(CFLAGS) -c -o treeIO.o ../../treeIO.c
+
+bipartitionList.o : ../../bipartitionList.c $(GLOBAL_DEPS)
+evaluatePartialSpecialGeneric.o : ../../evaluatePartialSpecialGeneric.c $(GLOBAL_DEPS)
+trash.o : ../../trash.c $(GLOBAL_DEPS)
+topologies.o : ../../topologies.c $(GLOBAL_DEPS)
+evaluatePartialGenericSpecial.o : ../../evaluatePartialGenericSpecial.c $(GLOBAL_DEPS)
+makenewzGenericSpecial.o : ../../makenewzGenericSpecial.c $(GLOBAL_DEPS)
+restartHashTable.o : ../../restartHashTable.c $(GLOBAL_DEPS)
+randomTree.o : ../../randomTree.c $(GLOBAL_DEPS)
+recom.o : ../../recom.c  $(GLOBAL_DEPS)
+main.o : main.c $(GLOBAL_DEPS)
+
+
+
+clean : 
+	$(RM) example newick.o phylip.o main.o ssort.o

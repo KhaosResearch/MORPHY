@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="sMSA_v27" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="Utilities/;Aligner/;Aligner/Models/;Aligner/Structrural Elemenents/;Evaluation Metrics/;Interactive Menus/;Program Parameters/;Tree Representation/;Sequences/;Intializers/;" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/sMSA_v27" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/sMSA_v27" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add option="-lgomp" />
+			<Add option="-fopenmp" />
+			<Add option="-std=gnu++0x" />
+		</Compiler>
+		<Linker>
+			<Add library="gomp" />
+		</Linker>
+		<Unit filename="BoostRandomGenerator.h">
+			<Option virtualFolder="Utilities/" />
+		</Unit>
+		<Unit filename="EvaluationObj.cpp">
+			<Option virtualFolder="Evaluation Metrics/" />
+		</Unit>
+		<Unit filename="EvaluationObj.h">
+			<Option virtualFolder="Evaluation Metrics/" />
+		</Unit>
+		<Unit filename="F84Model.cpp">
+			<Option virtualFolder="Aligner/Models/" />
+		</Unit>
+		<Unit filename="F84Model.h">
+			<Option virtualFolder="Aligner/Models/" />
+		</Unit>
+		<Unit filename="FIDModel.cpp">
+			<Option virtualFolder="Aligner/Models/" />
+		</Unit>
+		<Unit filename="FIDModel.h">
+			<Option virtualFolder="Aligner/Models/" />
+		</Unit>
+		<Unit filename="GTRModel.cpp">
+			<Option virtualFolder="Aligner/Models/" />
+		</Unit>
+		<Unit filename="GTRModel.h">
+			<Option virtualFolder="Aligner/Models/" />
+		</Unit>
+		<Unit filename="Mappings.h">
+			<Option virtualFolder="Utilities/" />
+		</Unit>
+		<Unit filename="Menus.cpp">
+			<Option virtualFolder="Interactive Menus/" />
+		</Unit>
+		<Unit filename="Menus.h">
+			<Option virtualFolder="Interactive Menus/" />
+		</Unit>
+		<Unit filename="PairAligner.cpp">
+			<Option virtualFolder="Aligner/Structrural Elemenents/" />
+		</Unit>
+		<Unit filename="PairAligner.h">
+			<Option virtualFolder="Aligner/Structrural Elemenents/" />
+		</Unit>
+		<Unit filename="PairInitializer.cpp">
+			<Option virtualFolder="Intializers/" />
+		</Unit>
+		<Unit filename="PairInitializer.h">
+			<Option virtualFolder="Intializers/" />
+		</Unit>
+		<Unit filename="Parameters.cpp">
+			<Option virtualFolder="Program Parameters/" />
+		</Unit>
+		<Unit filename="Parameters.h">
+			<Option virtualFolder="Program Parameters/" />
+		</Unit>
+		<Unit filename="ProbabilityObject.cpp">
+			<Option virtualFolder="Aligner/Structrural Elemenents/" />
+		</Unit>
+		<Unit filename="ProbabilityObject.h">
+			<Option virtualFolder="Aligner/Structrural Elemenents/" />
+		</Unit>
+		<Unit filename="Sequences.cpp">
+			<Option virtualFolder="Sequences/" />
+		</Unit>
+		<Unit filename="Sequences.h">
+			<Option virtualFolder="Sequences/" />
+		</Unit>
+		<Unit filename="TN93Model.cpp">
+			<Option virtualFolder="Aligner/Models/" />
+		</Unit>
+		<Unit filename="TN93Model.h">
+			<Option virtualFolder="Aligner/Models/" />
+		</Unit>
+		<Unit filename="Tokenizer.cpp">
+			<Option virtualFolder="Utilities/" />
+		</Unit>
+		<Unit filename="Tokenizer.h">
+			<Option virtualFolder="Utilities/" />
+		</Unit>
+		<Unit filename="Tree.cpp">
+			<Option virtualFolder="Tree Representation/" />
+		</Unit>
+		<Unit filename="Tree.h">
+			<Option virtualFolder="Tree Representation/" />
+		</Unit>
+		<Unit filename="TripleAligner.cpp">
+			<Option virtualFolder="Aligner/Structrural Elemenents/" />
+		</Unit>
+		<Unit filename="TripleAligner.h">
+			<Option virtualFolder="Aligner/Structrural Elemenents/" />
+		</Unit>
+		<Unit filename="TripleInitializer.cpp">
+			<Option virtualFolder="Intializers/" />
+		</Unit>
+		<Unit filename="TripleInitializer.h">
+			<Option virtualFolder="Intializers/" />
+		</Unit>
+		<Unit filename="Triplet.cpp">
+			<Option virtualFolder="Aligner/Structrural Elemenents/" />
+		</Unit>
+		<Unit filename="Triplet.h">
+			<Option virtualFolder="Aligner/Structrural Elemenents/" />
+		</Unit>
+		<Unit filename="TypeDefinitions.h">
+			<Option virtualFolder="Utilities/" />
+		</Unit>
+		<Unit filename="Utils.h">
+			<Option virtualFolder="Utilities/" />
+		</Unit>
+		<Unit filename="main.cpp" />
+		<Unit filename="matrix_exponential.cpp">
+			<Option virtualFolder="Utilities/" />
+		</Unit>
+		<Unit filename="matrix_exponential.hpp">
+			<Option virtualFolder="Utilities/" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
