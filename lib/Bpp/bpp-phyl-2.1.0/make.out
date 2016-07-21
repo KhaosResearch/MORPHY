@@ -1,0 +1,43 @@
+[  0%] Building CXX object src/CMakeFiles/bppphyl-shared.dir/Bpp/Phyl/Likelihood/AbstractTreeLikelihood.cpp.o
+In file included from /home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/AbstractTreeLikelihood.h:44,
+                 from /home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/AbstractTreeLikelihood.cpp:40:
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h: In member function ‘virtual bpp::SimpleSubstitutionProcess* bpp::SimpleSubstitutionProcess::clone() const’:
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:131: error: cannot allocate an object of abstract type ‘bpp::SimpleSubstitutionProcess’
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:104: note:   because the following virtual functions are pure within ‘bpp::SimpleSubstitutionProcess’:
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:137: note: 	virtual bpp::VVdouble bpp::SimpleSubstitutionProcess::getGenerator(int, unsigned int, unsigned int) const
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h: In member function ‘virtual bpp::VVdouble bpp::SimpleSubstitutionProcess::getTransitionProbabilities(int, unsigned int, unsigned int) const’:
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:135: warning: no return statement in function returning non-void
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h: At global scope:
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:148: error: ISO C++ forbids declaration of ‘DiscreteDistribution’ with no type
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:148: error: expected ‘;’ before ‘*’ token
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:151: error: ‘DiscreteDistribution’ has not been declared
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h: In constructor ‘bpp::RateAcrossSitesSubstitutionProcess::RateAcrossSitesSubstitutionProcess(bpp::SubstitutionModel*, int*)’:
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:152: error: class ‘bpp::RateAcrossSitesSubstitutionProcess’ does not have any field named ‘rDist_’
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:155: error: ‘rDist’ was not declared in this scope
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:158: error: request for member ‘getParameters’ in ‘* rdist’, which is of non-class type ‘int’
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h: In copy constructor ‘bpp::RateAcrossSitesSubstitutionProcess::RateAcrossSitesSubstitutionProcess(const bpp::RateAcrossSitesSubstitutionProcess&)’:
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:162: error: request for member ‘clone’ in ‘rassp->bpp::RateAcrossSitesSubstitutionProcess::model_’, which is of non-class type ‘bpp::SubstitutionModel* const’
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:163: error: class ‘bpp::RateAcrossSitesSubstitutionProcess’ does not have any field named ‘rDist_’
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:163: error: ‘const class bpp::RateAcrossSitesSubstitutionProcess’ has no member named ‘rDist_’
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:163: error: no matching function for call to ‘bpp::AbstractParameterAliasable::AbstractParameterAliasable()’
+/home/jdutheil/.local/include/Bpp/Numeric/AbstractParameterAliasable.h:147: note: candidates are: bpp::AbstractParameterAliasable::AbstractParameterAliasable(const bpp::AbstractParameterAliasable&)
+/home/jdutheil/.local/include/Bpp/Numeric/AbstractParameterAliasable.h:141: note:                 bpp::AbstractParameterAliasable::AbstractParameterAliasable(const std::string&)
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h: In member function ‘bpp::RateAcrossSitesSubstitutionProcess& bpp::RateAcrossSitesSubstitutionProcess::operator=(const bpp::RateAcrossSitesSubstitutionProcess&)’:
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:168: error: ‘rassp’ was not declared in this scope
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:170: error: request for member ‘clone’ in ‘ssp->bpp::RateAcrossSitesSubstitutionProcess::model_’, which is of non-class type ‘bpp::SubstitutionModel* const’
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:171: error: ‘rDist_’ was not declared in this scope
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:172: error: ‘const class bpp::RateAcrossSitesSubstitutionProcess’ has no member named ‘rDist_’
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h: In member function ‘virtual bpp::RateAcrossSitesSubstitutionProcess* bpp::RateAcrossSitesSubstitutionProcess::clone() const’:
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:178: error: cannot allocate an object of abstract type ‘bpp::RateAcrossSitesSubstitutionProcess’
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:145: note:   because the following virtual functions are pure within ‘bpp::RateAcrossSitesSubstitutionProcess’:
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:180: note: 	virtual bpp::VVdouble bpp::RateAcrossSitesSubstitutionProcess::getTransitionProbabilities(int, unsigned int, unsigned int) const
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/SubstitutionProcess.h:181: note: 	virtual bpp::VVdouble bpp::RateAcrossSitesSubstitutionProcess::getGenerator(int, unsigned int, unsigned int) const
+In file included from /home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/AbstractTreeLikelihood.cpp:40:
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/AbstractTreeLikelihood.h: In member function ‘virtual unsigned int bpp::AbstractTreeLikelihood::getNumberOfClasses() const’:
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/AbstractTreeLikelihood.h:303: error: ‘class bpp::SubstitutionProcess’ has no member named ‘getNumberOfClasses’
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/AbstractTreeLikelihood.cpp: At global scope:
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/AbstractTreeLikelihood.cpp:46: error: no ‘bpp::Vdouble bpp::AbstractTreeLikelihood::getLikelihoodForEachSite() const’ member function declared in class ‘bpp::AbstractTreeLikelihood’
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/src/Bpp/Phyl/Likelihood/AbstractTreeLikelihood.cpp:64: error: no ‘bpp::VVdouble bpp::AbstractTreeLikelihood::getLikelihoodForEachSiteForEachState() const’ member function declared in class ‘bpp::AbstractTreeLikelihood’
+make[2]: *** [src/CMakeFiles/bppphyl-shared.dir/Bpp/Phyl/Likelihood/AbstractTreeLikelihood.cpp.o] Error 1
+make[1]: *** [src/CMakeFiles/bppphyl-shared.dir/all] Error 2
+make: *** [all] Error 2

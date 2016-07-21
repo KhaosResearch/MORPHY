@@ -1,0 +1,32 @@
+# Global variables:
+DATA = example
+
+# ---------------
+# Input sequences
+# ---------------
+
+# The alphabet to use:
+# [DNA|RNA|Protein|Generic]
+alphabet=Protein
+
+# The sequence file to use (sequences must be aligned!)
+input.sequence.file=$(DATA).fasta
+
+# The file format:
+input.sequence.format=Fasta
+
+# ----------------
+# Output sequences
+# ----------------
+
+output.sequence.file=$(DATA).aln
+
+# The file format:
+output.sequence.format=Clustal()
+
+# -----------------------
+# Sequences manipulations
+# -----------------------
+#For example (see manual for a detailed list of available options):
+sequence.manip =  
+

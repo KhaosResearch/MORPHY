@@ -1,0 +1,38 @@
+[ 48%] Built target bppphyl-shared
+[ 96%] Built target bppphyl-static
+Linking CXX executable test_bowker
+[ 96%] Built target test_bowker
+Linking CXX executable test_detailed_simulations
+[ 96%] Built target test_detailed_simulations
+[ 97%] Building CXX object test/CMakeFiles/test_likelihood.dir/test_likelihood.cpp.o
+In file included from /home/jdutheil/Devel/Cpp/Projects/bpp-phyl/test/test_likelihood.cpp:48:0:
+/home/jdutheil/.local/include/Bpp/Phyl/NewLikelihood/RTreeLikelihood.h:205:26: error: invalid covariant return type for ‘virtual bpp::newlik::RTreeLikelihoodData* bpp::newlik::RTreeLikelihood::getLikelihoodData()’
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:204:33: error:   overriding ‘virtual bpp::TreeLikelihoodData* bpp::TreeLikelihood::getLikelihoodData()’
+/home/jdutheil/.local/include/Bpp/Phyl/NewLikelihood/RTreeLikelihood.h:206:32: error: invalid covariant return type for ‘virtual const bpp::newlik::RTreeLikelihoodData* bpp::newlik::RTreeLikelihood::getLikelihoodData() const’
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:209:39: error:   overriding ‘virtual const bpp::TreeLikelihoodData* bpp::TreeLikelihood::getLikelihoodData() const’
+/home/jdutheil/.local/include/Bpp/Phyl/NewLikelihood/RTreeLikelihood.h: In member function ‘virtual bpp::newlik::RTreeLikelihood* bpp::newlik::RTreeLikelihood::clone() const’:
+/home/jdutheil/.local/include/Bpp/Phyl/NewLikelihood/RTreeLikelihood.h:142:70: error: cannot allocate an object of abstract type ‘bpp::newlik::RTreeLikelihood’
+/home/jdutheil/.local/include/Bpp/Phyl/NewLikelihood/RTreeLikelihood.h:86:9: note:   because the following virtual functions are pure within ‘bpp::newlik::RTreeLikelihood’:
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:225:20: note: 	virtual double bpp::TreeLikelihood::getLogLikelihoodForASite(size_t) const
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:243:20: note: 	virtual double bpp::TreeLikelihood::getLogLikelihoodForASiteForAState(size_t, int) const
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:278:20: note: 	virtual double bpp::TreeLikelihood::getLikelihood() const
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:326:27: note: 	virtual bpp::ParameterList bpp::TreeLikelihood::getBranchLengthsParameters() const
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:333:27: note: 	virtual bpp::ParameterList bpp::TreeLikelihood::getSubstitutionModelParameters() const
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:344:38: note: 	virtual const bpp::SubstitutionModel* bpp::TreeLikelihood::getSubstitutionModel(int, size_t) const
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:355:32: note: 	virtual bpp::SubstitutionModel* bpp::TreeLikelihood::getSubstitutionModel(int, size_t)
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:367:22: note: 	virtual bpp::VVdouble bpp::TreeLikelihood::getTransitionProbabilities(int, size_t) const
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:369:39: note: 	virtual bpp::TreeLikelihood::ConstBranchModelIterator* bpp::TreeLikelihood::getNewBranchModelIterator(int) const
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:371:37: note: 	virtual bpp::TreeLikelihood::ConstSiteModelIterator* bpp::TreeLikelihood::getNewSiteModelIterator(size_t) const
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:394:40: note: 	virtual const std::vector<double, std::allocator<double> >& bpp::TreeLikelihood::getRootFrequencies(size_t) const
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:414:27: note: 	virtual bpp::ParameterList bpp::TreeLikelihood::getDerivableParameters() const
+/home/jdutheil/.local/include/Bpp/Phyl/Likelihood/TreeLikelihood.h:423:27: note: 	virtual bpp::ParameterList bpp::TreeLikelihood::getNonDerivableParameters() const
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/test/test_likelihood.cpp: In function ‘void fitModelH(bpp::SubstitutionModel*, bpp::DiscreteDistribution*, const bpp::Tree&, const bpp::SiteContainer&, double, double)’:
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/test/test_likelihood.cpp:64:3: error: ‘RTreeLikelihood’ was not declared in this scope
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/test/test_likelihood.cpp:64:3: note: suggested alternative:
+/home/jdutheil/.local/include/Bpp/Phyl/NewLikelihood/RTreeLikelihood.h:86:9: note:   ‘bpp::newlik::RTreeLikelihood’
+/home/jdutheil/Devel/Cpp/Projects/bpp-phyl/test/test_likelihood.cpp:64:19: error: expected ‘;’ before ‘newTl’
+/home/jdutheil/.local/include/Bpp/Phyl/NewLikelihood/RTreeLikelihood.h: In member function ‘virtual bpp::newlik::RTreeLikelihood* bpp::newlik::RTreeLikelihood::clone() const’:
+/home/jdutheil/.local/include/Bpp/Phyl/NewLikelihood/RTreeLikelihood.h:142:73: warning: control reaches end of non-void function [-Wreturn-type]
+make[2]: *** [test/CMakeFiles/test_likelihood.dir/test_likelihood.cpp.o] Error 1
+make[1]: *** [test/CMakeFiles/test_likelihood.dir/all] Error 2
+make: *** [all] Error 2

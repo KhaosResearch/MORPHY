@@ -1,0 +1,8 @@
+#include "NewLikelihood/AbstractTreeLikelihood.h"
+#include "NewLikelihood/AbstractTreeLikelihoodData.h"
+#include "NewLikelihood/ParametrizableTree.h"
+#include "NewLikelihood/RTreeLikelihood.h"
+#include "NewLikelihood/RTreeLikelihoodData.h"
+#include "NewLikelihood/SubstitutionProcess.h"
+#include "NewLikelihood/TreeLikelihood.h"
+#include "NewLikelihood/TreeLikelihoodData.h"

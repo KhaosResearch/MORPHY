@@ -1,0 +1,48 @@
+Constraint match at parameter T92.theta_1, badValue = 1.074960 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_3, badValue = 1.088435 ]1e-06, 0.999999[
+!!! Function at new point is greater than at current point: 5560.97>5500.35. Applying Felsenstein-Churchill correction: 0
+Constraint match at parameter T92.theta_1, badValue = 1.016617 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_3, badValue = 1.004744 ]1e-06, 0.999999[
+!!! Function at new point is greater than at current point: 5525.84>5333.11. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5322.34>5305.61. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5302.31>5299.55. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5298.41>5297.48. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5297.2>5297.18. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5297.03>5296.9. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.94>5296.76. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.67>5296.66. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.65>5296.58. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.65>5296.54. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.51>5296.5. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.48>5296.46. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.47>5296.44. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.46>5296.42. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.4>5296.4. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.39>5296.39. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.39>5296.38. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.39>5296.37. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.36>5296.36. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.36>5296.35. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.35>5296.35. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.35>5296.35. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.34>5296.34. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.34>5296.34. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.34>5296.34. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5296.34>5296.34. Applying Felsenstein-Churchill correction: 0
+Constraint match at parameter RootPosition, badValue = -24.928293 ]0, 1[
+Constraint match at parameter T92.theta_1, badValue = 1.074960 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_3, badValue = 1.088435 ]1e-06, 0.999999[
+!!! Function at new point is greater than at current point: 5509.69>5500.35. Applying Felsenstein-Churchill correction: 0
+Constraint match at parameter T92.theta_1, badValue = 1.023790 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_3, badValue = 1.011004 ]1e-06, 0.999999[
+Constraint match at parameter T92.theta_5, badValue = 1.553957 ]1e-06, 0.999999[
+!!! Function at new point is greater than at current point: 5667.72>5337.17. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5320.03>5310.55. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5318.85>5302.6. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5307.59>5300.98. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5307.1>5299.36. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5302.23>5298.67. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5300.88>5297.93. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5298.97>5297.54. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5298.18>5297.21. Applying Felsenstein-Churchill correction: 0
+!!! Function at new point is greater than at current point: 5297.47>5297.01. Applying Felsenstein-Churchill correction: 0
