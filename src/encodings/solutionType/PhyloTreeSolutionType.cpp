@@ -1,5 +1,5 @@
 /** 
- * MO-PhyTree (version 1.0.0) a software tool for multi-objective 
+ * MORPHY (version 1.0.0) a software tool for multi-objective 
  * phylogenetic inference. This software integrates features 
  * of the jMetalCpp, Bio++ and PLL frameworks.
  * 

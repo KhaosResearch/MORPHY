@@ -1,5 +1,5 @@
 /** 
- * MO-PhyTree (version 1.0.0) a software tool for multi-objective 
+ * MORPHY (version 1.0.0) a software tool for multi-objective 
  * phylogenetic inference. This software integrates features 
  * of the jMetalCpp, Bio++ and PLL frameworks.
  * 
@@ -44,7 +44,7 @@
 #include <RandomSelection.h>
 
 
-#include <MOPhyTree.h>
+#include <MORPHY.h>
 
 
 using namespace std;
@@ -96,7 +96,7 @@ int main(int argc, char** argv) {
    double umbral= ApplicationTools::getDoubleParameter("umbral", objApp->getParams(), 0.2, "", false, false);
   
     
-  algorithm = new MOPhyTree(problem);
+  algorithm = new MORPHY(problem);
   algorithm->setInputParameter("umbral",&umbral);
 
   algorithm->setInputParameter("populationSize",&populationSize);

@@ -1,4 +1,4 @@
-//  MOPhyTree.cpp
+//  MORPHY.cpp
 //
 //  Author:
 //       Cristian Zambrano-Vega <czambrano@uteq.edu.ec>
@@ -19,26 +19,19 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include <MOPhyTree.h>
+#include <MORPHY.h>
 #include <Bpp/App/BppApplication.h>
 #include <Bpp/App/ApplicationTools.h>
 #include <Phylogeny.h>
 
 using namespace bpp;
-/*
- * This class implements the NSGA-II algorithm.
- */
 
 
-/**
- * Constructor
- * @param problem Problem to solve
- */
-MOPhyTree::MOPhyTree(Problem *problem) : Algorithm(problem) {
-} // MOPhyTree
+MORPHY::MORPHY(Problem *problem) : Algorithm(problem) {
+} // MORPHY
 
 
-double MOPhyTree::RFDistance(Solution * sol1, Solution * sol2, bool normalized, int NumberOfTaxas) {
+double MORPHY::RFDistance(Solution * sol1, Solution * sol2, bool normalized, int NumberOfTaxas) {
 
   PhyloTree *Pt1, *Pt2; 
   Pt1 = (PhyloTree *)sol1->getDecisionVariables()[0];
@@ -57,11 +50,11 @@ double MOPhyTree::RFDistance(Solution * sol1, Solution * sol2, bool normalized, 
 }
 
 /*
- * Runs the MO-PhyTree algorithm.
+ * Runs the MORPHY algorithm.
  * @return a <code>SolutionSet</code> that is a set of non dominated solutions
  * as a result of the algorithm execution
  */
-SolutionSet * MOPhyTree::execute() {
+SolutionSet * MORPHY::execute() {
 
   int populationSize;
   int maxEvaluations;

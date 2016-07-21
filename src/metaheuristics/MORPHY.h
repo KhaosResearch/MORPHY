@@ -1,4 +1,4 @@
-//  MOPhyTree.h
+//  MORPHY.h
 //
 //  Author:
 //       Cristian Zambrano-Vega <czambrano@uteq.edu.ec>
@@ -18,8 +18,8 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __MOPhyTree__
-#define __MOPhyTree__
+#ifndef __MORPHY__
+#define __MORPHY__
 
 #include <Algorithm.h>
 #include <Problem.h>
@@ -31,18 +31,18 @@
 //#include <QualityIndicator.h>
 
 /**
-  * @class MOPhyTree
-  * @brief This class implements the MOPhyTree algorithm
+  * @class MORPHY
+  * @brief This class implements the MORPHY algorithm
 **/
 
-class MOPhyTree : public Algorithm {
+class MORPHY : public Algorithm {
 
 public:
-  MOPhyTree(Problem * problem);
+  MORPHY(Problem * problem);
   double RFDistance(Solution * sol1, Solution * sol2, bool normalized, int NumberOfTaxas);
   SolutionSet * execute();
 
 };
 
 
-#endif /* __MOPhyTree__ */
+#endif /* __MORPHY__ */
