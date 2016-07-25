@@ -1,6 +1,6 @@
  -------------------------------
 |                               |
-|  MO-PhyTree - README          |
+|  MORPHY - README              |
 |                               |
  -------------------------------
 
@@ -19,11 +19,11 @@ TABLE OF CONTENTS
 1. Requirements 
 =======================================================================================
 
-MO-PhyTree has been developed in Unix machines (Ubuntu and MacOS X) as well as in
+MORPHY has been developed in Unix machines (Ubuntu and MacOS X) as well as in
 Windows (MinGW) using the G++ (4.4.7) compiler. The make utility has been used to compile the
 software package.
 
-MO-PhyTree is based on jMetalCpp and requires install two frameworks:
+MORPHY is based on jMetalCpp and requires install two frameworks:
 
 1) Bio++: a set of C++ libraries for Bioinformatics, including sequence analysis, phylogenetics, molecular evolution and population genetics. Home Page:  http://biopp.univ-montp2.fr/
 
@@ -35,48 +35,40 @@ Bio++ also requeries the CMake utility and Pll requeries Autoreconf utility.
 =======================================================================================
 
 =======================================================================================
-2. Installing MO-PhyTree
+2. Installing MORPHY
 =======================================================================================
 
-Copy the compressed file to the location where you want to install MO-Phylogenetics and
+Copy the compressed file to the location where you want to install MORPHY and
 unzip it.
 
 Then, run the install.sh with the following command:
   %sh install.sh
 
-This install all the libraries needed: Bio++ (Bpp-Core, Bpp-Seq and Bpp-Phyl) and Pll.
-Add the path of the new libraries installed in your .bashrc file
-
-For Bio++:
-
-   export CPATH=$CPATH:MOPhyTree_path/lib/Bpp/include    
-   export LIBRARY_PATH=$LIBRARY_PATH:MOPhyTree_path/lib/Bpp/lib   
-   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:MOPhyTree_path/lib/Bpp/lib  
-
-For Pll:
-
-   export CPATH=$CPATH:MOPhyTree_path/lib/Pll/src/include    
-   export LIBRARY_PATH=$LIBRARY_PATH:MOPhyTree_path/lib/Pll/src/lib   
-   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:MOPhyTree_path/lib/Pll/src/lib  
+It installs all the needed libraries: Bio++ (Bpp-Core, Bpp-Seq and Bpp-Phyl) and Pll.
 
 =======================================================================================
 
 
 =======================================================================================	
-3. Executing MO-Phylogenetics
+3. Executing MORPHY
 =======================================================================================
 
-The main binary is in the subfolder 'bin'. Enter this folder to execute MO-Phylogenetics.
+The main binary is in the subfolder 'bin'. Enter this folder to execute MORPHY
 	
   % cd bin
-  % ./MOPhyTree param= parametersfile
+  % ./MORPHY param= parametersfile
 
 The parameterfile is the filename wich has all the parameters requeried to execute the program. For example, to execute the program using one of our test problem 500 sequences dataset, type the following command:
 	
-  %./MOPhyTree param=parameters/params500.txt
+  %./MORPHY param=parameters/params500.txt
 
 The parameters to solve the state-of-the-art problems are defined in some files saved into the paramaters folder, and also are included the datasets (nucleotide sequences), partition model file and the initial user trees perfomanced by a bootstrap techniques using PhyML and DNAPars software. 
 
+If you need run a simple example of the algorithm, only define the filename of the dataset of Amino-Acids or Nucleotide sequences, using the parameter sequence_file. 
+
+  %./MORPHY sequence_file=sequences.phy
+
+All the parameters will be estimated, optimized and defined with the best default values obtanied in our experiments.
 
 =======================================================================================
 
@@ -85,13 +77,13 @@ The parameters to solve the state-of-the-art problems are defined in some files 
 4. Structure 
 =======================================================================================
 
-* MO-Phylogenetics: 
+* MORPHY: 
 ** lib
 	*** Bpp: Source code of the Bio++ libraries: Bpp-Core, Bpp-Seq and Bpp-Phyl
 	*** Pll: Source code of Phylogenetic Likelihood Library
 	libjmetal.a: jMetalCpp library
 
-** src: Source Code of MO-Phylogenetics based in the jMetalCpp framework. Some changes were added to adjut to the Phylogenetic problem.
+** src: Source Code of MORPHY based in the jMetalCpp framework. Some changes were added to adjust to the Phylogenetic problem.
 	
 ** bin: Main Binary of the software
 
@@ -112,48 +104,31 @@ Parameters of the Metaheuristic:
 experimentid	 = Experiment ID, the results file are renamed using this ID
 DATAPATH   	 = data folder name 
 
-algorithm	 = Name, now available: NSGAII,SMSEMOA,MOEAD,PAES
-populationsize 	 = Population Size o
+populationsize 	 = Population Sizet
 maxevaluations 	 = Number of the evaluations 
 
-offset 		= SMSEMOA parameter only
+intervalupdateparameters = Interval of evaluations to Optimize the Branch-length and parameters of 				   the substitution model  
 
-datadirectory	= MOAED/D parameter only
-
-bisections	= Number of bisections,  PAES parameter only
-archivesize	= Size of the archive,  PAES parameter only
-
-intervalupdateparameters = Interval of evaluations to Optimize the Branch-length and parameters of 				   the evolutionary model  
-
-printtrace 		= Prints trace of the time elapsed and score value performed during 				  optimizing strategies   
+printtrace 		= Prints trace of the elapsed time and score value performed during 				  optimizing strategies   
 printbestscores 	= Prints best scores found during the algorithm execution 
 
 Genetic Operators
 
 selection.method	= binarytournament and randomselection (for SMSEMOA) are Available.
 
-crossover.method 	= Only the PDG (Prune-Delete-Graph) recombination operator is available.
-crossover.probability   = Probability to execute.
-crossover.offspringsize = Number of descendents
-
 mutation.method 		= NNI, SPR and TRB Topological mutations are available 
 mutation.probability 		= Probability to execute
-mutation.distributionindex 	= Distribution Index
 
 # ----------------------------------------------------------------------------------------
 #                                     Phylogenetic Parameters
 # ----------------------------------------------------------------------------------------
 
-alphabet	    		= DNA, RNA or Protein are available.
-input.sequence.file 		= The sequence file to use (sequences must be aligned!).
+alphabet	    		= DNA or Protein are available.
+sequence_file	 		= The sequence file to use (sequences must be aligned!).
 		      	  	For example $(DATAPATH)/sequences/55.txt
 
 input.sequence.format		= The alignment format, for exampĺe
 			  	Phylip(order=sequential, type=extended, split=spaces)
-
-input.sequence.sites_to_use    = Sites to use all, nogap or complete (=only resolved chars)
-input.sequence.max_gap_allowed = Specify a maximum amount of gaps: may be an absolute number 
-				 or a percentage. 0%
 
 partitionmodelfilepll 		= Model specifications file. For example: $(DATAPATH)/model/55.model
 
@@ -166,9 +141,9 @@ init.population.tree.format 	= Phylogenetic Trees Format: Newick
 
 # ********** Parameters of the Evolutionary Model  ***********
 model 				= Evolutionary Model Name, for example GTR+G
-#model.kappa 			= Kappa value, HKY+G  Parameter Only 
 
 Frequences 
+
 model.frequences 		= user or empirical
 model.piA 			=  PiA
 model.piC 			=  PiC 
@@ -187,7 +162,6 @@ model.GT 			= GT, always set 1
 rate_distribution 		= Gamma technique only
 rate_distribution.ncat		= Number of categories, 4 by default
 rate_distribution.alpha 	= Alpha value
-rate_distribution.beta 		= Beta value
 
 
 # ********** Phylogenetic Optimization  ***********
@@ -223,40 +197,27 @@ optimization.pll.newton3sprbranch 	= Optimization of branch-length affected by t
 
 Optimization of the Branch-Length of the initial population of phylogenetic trees
 bl_optimization.starting 			= true or false
-bl_optimization.starting.method 		= Method: newton and gradient are available
 bl_optimization.starting.maxitevaluation	= 1000
-bl_optimization.starting.tolerance 		= Precision 0.001
 
 Optimization of the Branch-Length during one of the techniques of tree-space exploration or during each Update Interval.
 bl_optimization 				= true or false
-bl_optimization.method				= Method: newton and gradient are available
 bl_optimization.maxitevaluation			= 1000 
-bl_optimization.tolerance 			= 0.001
 
 Optimization of the Branch-Length of the final population of phylogenetic trees perfomanced by algorithm
 bl_optimization.final 				= true or false
-bl_optimization.final.method			= Method: newton and gradient are available
 bl_optimization.final.maxitevaluation		= 1000
-bl_optimization.final.tolerance 		= 0.001
 
 
 # ********** Evolutionary Model Optimization ***********
 Optimization of the Parameters of the Evolutionary Model in 
 model_optimization 				= true or false
-model_optimization.method 			= Method. brent or bfgs	are available
-model_optimization.maxitevaluation 		= 1000
 model_optimization.tolerance 			= 0.001
-
-# ********** Distribution Rate Optimization ***********
-ratedistribution_optimization = false
-ratedistribution_optimization.method = bfgs #brent or bfgs
-
 
 =======================================================================================
 6. Results
 =======================================================================================
 
-The results of MO-Phylogenetics are based in the jMetalCpp output format, 
+The results of MORPHY are based in the jMetalCpp output format, 
 creates two files called FUN+ExperimentID and VAR+ExperimentID. 
 The FUN file contains the data of the pareto front approximation and 
 the VAR file contains the optimized phylogenetic trees in newick format.
@@ -267,17 +228,7 @@ the VAR file contains the optimized phylogenetic trees in newick format.
 7.- News
 =======================================================================================
 
-26-01-2016
-MOCHC Algorithm has been added
-Paramater bootstrapSize,initialconvergencecount,preservedPopulation and convergencevalue
-has been added
 
-04-06-2016
-Proteins
-Substitution Models for Amino Acids
-
-21-06-2016
-NumPreliminarResults 0 default
 =======================================================================================
 
 
