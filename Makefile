@@ -1,12 +1,12 @@
 #
-# MO-PhyTree Makefile (based on jMetalCpp Makefile)
+# MORPHY Makefile (based on jMetalCpp Makefile)
 #
 #   Author:
 #     Esteban Lopez <esteban@lcc.uma.es>
 #     Cristian Zambrano <czambrano@uteq.edu.ec>
 
 # Instructions:
-#    - "make all" to compile everything (jMetalCpp + MO-PhyTree)
+#    - "make all" to compile everything (jMetalCpp + MORPHY)
 #
 
 
@@ -75,7 +75,7 @@ MAIN_LIBS := -lm #-pthread
 
 
 # All rule
-all: library MainMOPhyTree
+all: library MainMORPHY
 
 # Main files rule
 mains : $(patsubst $(SRCDIR)%.$(SRCEXT), $(BINDIR)%, $(MAIN_FILES))
@@ -112,12 +112,12 @@ clean:
 tester: 
 
 
-MainMOPhyTree: MainMOPhyTree_main
+MainMORPHY: MainMORPHY_main
 	
-MainMOPhyTree_main: $(SRCDIR)/main/MO-PhyTree.$(SRCEXT) $(LIB)
-	@echo "Compiling  $(SRCDIR)/main/MO-PhyTree.$(SRCEXT)"
+MainMORPHY_main: $(SRCDIR)/main/mainMORPHY.$(SRCEXT) $(LIB)
+	@echo "Compiling  $(SRCDIR)/main/MORPHY.$(SRCEXT)"
 	@mkdir -p $(BINDIR)
-	$(CC) $(CFLAGS) $(SRCDIR)/main/MO-PhyTree.$(SRCEXT) $(MAIN_DEPS) -o $(BINDIR)/MO-PhyTree $(INC) $(MAIN_LIBS)
+	$(CC) $(CFLAGS) $(SRCDIR)/main/mainMORPHY.$(SRCEXT) $(MAIN_DEPS) -o $(BINDIR)/MORPHY $(INC) $(MAIN_LIBS)
 
 
 .PHONY: clean

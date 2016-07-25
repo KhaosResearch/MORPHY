@@ -53,9 +53,9 @@ using namespace bpp;
 
 void Message()
 {
-  (*ApplicationTools::message <<"* Multi-Objective Phylogenetic Inference Software, jMetalC++ & Bio++ & PLL*").endLine();
+  (*ApplicationTools::message <<"* MORPHY: Multi-Objective softwaRe to Phylogenetic Inference              *").endLine();
   (*ApplicationTools::message  <<"*                                                                        *").endLine();
-  (*ApplicationTools::message <<"* Authors:                                             Last Modif. 13/07/16*").endLine();
+  (*ApplicationTools::message <<"* Authors:                                            Last Modif. 13/07/16*").endLine();
   (*ApplicationTools::message <<"* Cristian Zambrano-Vega                                                  *").endLine();
   (*ApplicationTools::message <<"* Antonio J. Nebro                                                        *").endLine();
   (*ApplicationTools::message <<"***************************************************************************").endLine();
