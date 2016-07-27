@@ -1,0 +1,102 @@
+# ----------------------------------------------------------------------------------------
+#                                     Metaheuristic Parameters
+# ----------------------------------------------------------------------------------------
+#Experimennt ID
+experimentid = 510
+
+DATAPATH    = /home/cristian/MORPHY/data
+
+populationsize = 100
+maxevaluations = 10000
+bootstrapSize	=100
+umbral=0.2
+
+intervalupdateparameters = 200 
+NumPreliminarResults=200
+printtrace 	= true  
+printbestscores = true
+
+#**************** Genetic Operators **************** 
+
+# ********* Selection **********
+selection.method=binarytournament
+
+# ********* Mutation **********
+#NNI, SPR, TRB
+mutation.method = NNI
+mutation.probability = 0.2
+mutation.distributionindex = 1
+
+# ----------------------------------------------------------------------------------------
+#                                     Phylogenetic Parameters
+# ----------------------------------------------------------------------------------------
+
+
+# *********** Sequences ***********
+#DNA, RNA or Protein
+alphabet=Protein 
+
+# The sequence file to use (sequences must be aligned!)
+sequencefile= $(DATAPATH)/sequences/M510.clu
+
+# The alignment format:  order=sequential/interleaved type=extended/classic
+#input.sequence.format=Phylip(order=sequential, type=extended, split=spaces)
+
+input.sequence.format=Fasta(charsbyline=100, checksequencenames=true, extended=false,strictsequencenames=true)
+
+input.sequence.print=false
+
+#Sites to use:
+# all, nogap or complete (=only resolved chars)
+input.sequence.sites_to_use = all
+# Specify a maximum amount of gaps: may be an absolute number or a percentage.
+input.sequence.max_gap_allowed = 0%
+
+#***************** PLL Parameters ******************
+
+partitionmodelfile = $(DATAPATH)/model/M510.model
+
+# *********** Initial Population Trees ***********
+
+# user, random or stepwise
+init.population = user
+init.population.tree.file = $(DATAPATH)/inputusertrees/bootstrap100_M510
+init.population.tree.format = Newick
+
+# ********** Substitution Model  ***********
+model = LG
+
+model.frequences = none
+ 
+# ********** Distribution Gamma  ***********
+rate_distribution = Gamma
+rate_distribution.ncat = 4
+rate_distribution.alpha = 0.544415
+
+# ********** Phylogenetic Optimization  ***********
+#strategies h2 y h1
+optimization.method = h2
+optimization.method.perc = 0.5
+
+optimization.ppn.numiterations = 300
+optimization.ppn.maxsprbestmoves = 100
+
+optimization.pll.percnodes = 0.2
+optimization.pll.mintranv = 1
+optimization.pll.maxtranv = 10
+optimization.pll.newton3sprbranch = true
+
+# ********** Branch Lenght Optimization ***********
+bl_optimization.starting = true
+bl_optimization.starting.maxitevaluation=1000
+
+bl_optimization = false
+bl_optimization.maxitevaluation=1000
+
+bl_optimization.final = true
+bl_optimization.final.maxitevaluation=1000
+
+# ********** Evolutionary Model Optimization ***********
+model_optimization = true
+model_optimization.tolerance =0.001
+

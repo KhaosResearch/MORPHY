@@ -127,7 +127,7 @@ void Phylogeny::PrintSequences(pllAlignmentData * alignmentData){
 
 void Phylogeny::ReadSequences(BppApplication * objApp){
     
-        alphabetType = ApplicationTools::getStringParameter("alphabet", objApp->getParams(), "DNA", "", false,false);
+        alphabetType = ApplicationTools::getStringParameter("alphabet", objApp->getParams(), "Protein", "", false,false);
             
         if(alphabetType=="DNA")
             alphabet = new DNA();

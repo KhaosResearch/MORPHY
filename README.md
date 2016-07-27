@@ -64,9 +64,9 @@ The parameterfile is the filename wich has all the parameters requeried to execu
 
 The parameters to solve the state-of-the-art problems are defined in some files saved into the paramaters folder, and also are included the datasets (nucleotide sequences), partition model file and the initial user trees perfomanced by a bootstrap techniques using PhyML and DNAPars software. 
 
-If you need run a simple example of the algorithm, only define the filename of the dataset of Amino-Acids or Nucleotide sequences, using the parameter sequence_file. 
+If you need run a simple example of the algorithm, only define the filename of the dataset of Amino-Acids sequences in Phylip format and the partition file, using the parameter sequencefile and partitionmodelfile
 
-  %./MORPHY sequence_file=sequences.phy
+  %./MORPHY sequencefile=sequences.phy partitionmodelfile=sequences.model
 
 All the parameters will be estimated, optimized and defined with the best default values obtanied in our experiments.
 
@@ -124,7 +124,7 @@ mutation.probability 		= Probability to execute
 # ----------------------------------------------------------------------------------------
 
 alphabet	    		= DNA or Protein are available.
-sequence_file	 		= The sequence file to use (sequences must be aligned!).
+sequencefile	 		= The sequence file to use (sequences must be aligned!).
 		      	  	For example $(DATAPATH)/sequences/55.txt
 
 input.sequence.format		= The alignment format, for exampĺe
