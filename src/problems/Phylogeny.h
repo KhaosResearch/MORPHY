@@ -181,7 +181,8 @@ public:
   string  sequenceFormat;
   string  alphabetType;
  
- 
+  double threshold;
+  bool  consensus_tree;
   
   
   //Optimization 
@@ -224,6 +225,7 @@ public:
   
   void updateInterval(SolutionSet * population);
   void printPreliminarResults(int NumExp, SolutionSet* population);
+  void makeConsensus(SolutionSet * pop, string FilenameConsensus);
   
   void setPopulationNotNew(SolutionSet * population);
   int getNewSolutionsCount(SolutionSet * population);

@@ -390,6 +390,10 @@ void Phylogeny::readParameters(BppApplication *objApp){
     OptimizacionSubstModel           = ApplicationTools::getBooleanParameter("model_optimization", objApp->getParams(), true, "", false, false);
     TolerenciaOptSubstModel          = ApplicationTools::getDoubleParameter("model_optimization.tolerance", objApp->getParams(), 0.001, "", false, false);
    
+    
+    consensus_tree = ApplicationTools::getBooleanParameter("consensus", objApp->getParams(), false, "", false, false);
+    threshold      = ApplicationTools::getDoubleParameter("consensus_threshold", objApp->getParams(), 0.5, "", false, false);
+  
 }
 
 
@@ -475,9 +479,9 @@ void Phylogeny::printParameters(){
         
         cout << "NumPreliminarResults: " << NumPreliminarResults << endl;
         
-        
-        
-        cout << endl;
+        cout << "************** Consensus Tree ************ " << endl;
+        cout <<"Generate Consensus Tree = " << consensus_tree << endl;
+        cout <<"Consensus threshold = " << threshold << endl;
         
 }
 
@@ -1456,4 +1460,25 @@ void Phylogeny::printPreliminarResults(int NumExp, SolutionSet* population){
    FrenteOP->printObjectivesToFile2("FUN" + num.str());
     
    delete FrenteOP;
+}
+
+void Phylogeny::makeConsensus(SolutionSet * pop, string FilenameConsensus){
+    
+    vector<Tree*> list;
+    for (int i=0;i<pop->size();i++) {
+         PhyloTree * Pt = (PhyloTree*)pop->get(i)->getDecisionVariables()[0];
+         list.push_back(Pt->getTree());
+    }
+
+    Tree* tree = 0;
+    tree = TreeTools::thresholdConsensus(list, threshold, true);
+    TreeTools::computeBootstrapValues(*tree, list, false);
+    
+    Newick*  treeWriter = new Newick();
+    treeWriter->write(*tree,FilenameConsensus);
+
+    delete treeWriter;
+    delete tree;
+            
+    
 }

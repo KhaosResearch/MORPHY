@@ -114,3 +114,12 @@ bl_optimization.final.maxitevaluation=1000
 model_optimization = false
 model_optimization.tolerance =0.001
 
+
+# ********** Consensus tree ***********
+consensus = true
+
+#Minimal acceptable score =number of occurrence of a bipartition/number of trees (0.<=threshold<=1.)
+#0 will output a fully resolved tree, 0.5 corresponds to the majority rule and 1 to the strict #consensus, but any intermediate value can be specified.
+
+consensus_threshold = 0.5
+

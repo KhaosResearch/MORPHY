@@ -196,6 +196,11 @@ int main(int argc, char** argv) {
     cout << "Objectives values have been written to file FUN" << endl;
     FrenteOP->printObjectivesToFile2("FUN" + NumExp);
 
+    if(p->consensus_tree){
+        p->makeConsensus(FrenteOP, "CONSENSUS_TREE" + NumExp);
+        cout << endl;
+    }
+    
     string filename="Parameters"+ NumExp;
     std::ofstream out(filename.c_str());
     out << "PARAMETERS" << endl  

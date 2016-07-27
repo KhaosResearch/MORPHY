@@ -213,6 +213,17 @@ Optimization of the Parameters of the Evolutionary Model in
 model_optimization 				= true or false
 model_optimization.tolerance 			= 0.001
 
+
+#************* Consensus tree *****************
+Calculates the consensus tree of the final set of non-dominated solutions, defined from the number of occurrences of bipartitions. A bipartition is included if it is compatible with all previously included bipartitions, and if its score is higher than a threshold
+
+consensus = true/false
+
+consensus_threshold = Minimal acceptable score =number of occurrence of a bipartition/number of trees (0.<=threshold<=1.)
+
+0 will output a fully resolved tree, 0.5 corresponds to the majority rule and 1 to the strict consensus, but any intermediate value can be specified.
+
+
 =======================================================================================
 6. Results
 =======================================================================================
