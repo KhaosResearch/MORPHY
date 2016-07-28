@@ -41,10 +41,11 @@ Bio++ also requeries the CMake utility and Pll requeries Autoreconf utility.
 Copy the compressed file to the location where you want to install MORPHY and
 unzip it.
 
-Then, run the install.sh with the following command:
-  %sh install.sh
+Then, run as root user the script install.sh with the following command:
+  %sudo sh install.sh
 
-It installs all the needed libraries: Bio++ (Bpp-Core, Bpp-Seq and Bpp-Phyl) and Pll.
+It installs all the needed libraries: Bio++ (Bpp-Core, Bpp-Seq and Bpp-Phyl) and Pll
+in default directories `/usr/local/bin' and `/usr/local/include'.
 
 =======================================================================================
 
