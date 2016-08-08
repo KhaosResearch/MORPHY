@@ -19,16 +19,13 @@ TABLE OF CONTENTS
 1. Requirements 
 =======================================================================================
 
-MORPHY has been developed in Unix machines (Ubuntu and MacOS X) as well as in
-Windows (MinGW) using the G++ (4.4.7) compiler. The make utility has been used to compile the
-software package.
+MORPHY has been developed in Unix machines (Ubuntu and MacOS X) using the G++ (4.4.7) compiler. The make utility has been used to compile the software package.
 
-MORPHY is based on jMetalCpp and requires install two frameworks:
+MORPHY is based on MO-Phylogenetics and requires install two frameworks:
 
 1) Bio++: a set of C++ libraries for Bioinformatics, including sequence analysis, phylogenetics, molecular evolution and population genetics. Home Page:  http://biopp.univ-montp2.fr/
 
-2) PLL - Phylogenetic Likelihood Library: a highly optimized, parallized software library to ease the development of new software tools dealing with phylogenetic inference. 
-Home Page: Phylogenetic Likelihood Library http://www.libpll.org/
+2) PLL - Phylogenetic Likelihood Library: a highly optimized, parallized software library to easy the development of new software tools dealing with phylogenetic inference. Home Page: Phylogenetic Likelihood Library http://www.libpll.org/
 
 Bio++ also requeries the CMake utility and Pll requeries Autoreconf utility.
 
@@ -41,10 +38,10 @@ Bio++ also requeries the CMake utility and Pll requeries Autoreconf utility.
 Copy the compressed file to the location where you want to install MORPHY and
 unzip it.
 
-Then, run as root user the script install.sh with the following command:
+Then, run as a root user the script install.sh with the following command:
   %sudo sh install.sh
 
-It installs all the needed libraries: Bio++ (Bpp-Core, Bpp-Seq and Bpp-Phyl) and Pll
+It installs all needed libraries: Bio++ (Bpp-Core, Bpp-Seq and Bpp-Phyl) and Pll
 in default directories `/usr/local/bin' and `/usr/local/include'.
 
 =======================================================================================
@@ -59,17 +56,19 @@ The main binary is in the subfolder 'bin'. Enter this folder to execute MORPHY
   % cd bin
   % ./MORPHY param= parametersfile
 
-The parameterfile is the filename wich has all the parameters requeried to execute the program. For example, to execute the program using one of our test problem 500 sequences dataset, type the following command:
+The parameterfile is the filename wich has all the requeried parameters to execute the program. For example, to execute the program using one of our test problem ZILLA_500 sequences dataset, type the following command:
 	
   %./MORPHY param=parameters/params500.txt
 
-The parameters to solve the state-of-the-art problems are defined in some files saved into the paramaters folder, and also are included the datasets (nucleotide sequences), partition model file and the initial user trees perfomanced by a bootstrap techniques using PhyML and DNAPars software. 
+The parameters to solve the DNA state-of-the-art and AA Test problems are defined in some files saved into the paramaters folder, and also are included the datasets (Amino-Acids and Nucleotide sequences), partition model file and the initial user trees perfomanced by a bootstrap techniques using PhyML, IQTREE, RAxML and DNAPars softwares. 
 
-If you need run a simple example of the algorithm, only define the filename of the dataset of Amino-Acids sequences in Phylip format and the partition file, using the parameter sequencefile and partitionmodelfile
+Simple Example
+
+If you need run a simple example of the algorithm, only define the filename of the dataset of Amino-Acids sequences in Phylip format with the partition file, using the parameters "sequencefile" and "partitionmodelfile"
 
   %./MORPHY sequencefile=sequences.phy partitionmodelfile=sequences.model
 
-All the parameters will be estimated, optimized and defined with the best default values obtanied in our experiments.
+The rest of phylogenetic parameters will be estimated and the parameters of the algorithm will defined with the best default values obtanied in our experiments.
 
 =======================================================================================
 
@@ -84,7 +83,7 @@ All the parameters will be estimated, optimized and defined with the best defaul
 	*** Pll: Source code of Phylogenetic Likelihood Library
 	libjmetal.a: jMetalCpp library
 
-** src: Source Code of MORPHY based in the jMetalCpp framework. Some changes were added to adjust to the Phylogenetic problem.
+** src: Source Code of MORPHY based in the MO-Phylogenetics framework. Some changes were added to adjust to the Phylogenetic problem.
 	
 ** bin: Main Binary of the software
 
@@ -93,7 +92,7 @@ All the parameters will be estimated, optimized and defined with the best defaul
 	*** model: Partition Model file used by Pll 
 	*** inputusertrees: Input Phylogenetic Trees used as repository to generate initial population
 
-** parameters: Parameters file wich contains all the parameters needed to customize the software.
+** parameters: Parameters file wich contains all the needed parameters to customize the software.
 
 	
 =======================================================================================
@@ -102,21 +101,20 @@ All the parameters will be estimated, optimized and defined with the best defaul
 
 Parameters of the Metaheuristic:
 
-experimentid	 = Experiment ID, the results file are renamed using this ID
-DATAPATH   	 = data folder name 
+experimentid			 = Experiment ID, the results file are renamed using this ID
+DATAPATH   	 		 = data folder name 
 
-populationsize 	 = Population Sizet
-maxevaluations 	 = Number of the evaluations 
+populationsize 	 		 = Population Size
+maxevaluations 			 = Number of the evaluations 
 
-intervalupdateparameters = Interval of evaluations to Optimize the Branch-length and parameters of 				   the substitution model  
+intervalupdateparameters	 = Interval of evaluations to Optimize the Branch-length and parameters of the substitution model  
 
-printtrace 		= Prints trace of the elapsed time and score value performed during 				  optimizing strategies   
-printbestscores 	= Prints best scores found during the algorithm execution 
+printtrace 			 = Prints trace of the elapsed time and score value performed during optimizing strategies   
+printbestscores 		 = Prints best scores found during the algorithm execution 
 
-Genetic Operators
+*****Genetic Operators****
 
-selection.method	= binarytournament and randomselection (for SMSEMOA) are Available.
-
+selection.method		= binarytournament and randomselection (for SMSEMOA) are Available.
 mutation.method 		= NNI, SPR and TRB Topological mutations are available 
 mutation.probability 		= Probability to execute
 
@@ -124,7 +122,7 @@ mutation.probability 		= Probability to execute
 #                                     Phylogenetic Parameters
 # ----------------------------------------------------------------------------------------
 
-alphabet	    		= DNA or Protein are available.
+alphabet	    		= Protein or DNA are available.
 sequencefile	 		= The sequence file to use (sequences must be aligned!).
 		      	  	For example $(DATAPATH)/sequences/55.txt
 
@@ -143,15 +141,14 @@ init.population.tree.format 	= Phylogenetic Trees Format: Newick
 # ********** Parameters of the Evolutionary Model  ***********
 model 				= Evolutionary Model Name, for example GTR+G
 
-Frequences 
-
+********** Frequences ********
 model.frequences 		= user or empirical
 model.piA 			=  PiA
 model.piC 			=  PiC 
 model.piG 			=  PiG 
 model.piT 			=  PiT 
 
-GTR relative rate parameters 
+********** GTR relative rate parameters **********
 model.AC 			= AC
 model.AG 			= AG
 model.AT 			= AT
@@ -171,8 +168,7 @@ High-level Strategies for searching the tree space: h2 y h1
 
 H1: This strategy is based on the theoretical perspective of the strong relation between
 parsimony and likelihood (minimizing the parsimony score is equivalent to
-maximizing the likelihood under some assumptions), and searchs bi-objective phylogenetic trees applying topological moves using the Parametric Progressive Neighbourhood (PPN) technique (Go¨effon et al.,2008) to minimizing the parsimony and with this maximizing the likelihood
-simultaneously; furthermore, with the aim of improve the likelihood, optimize all branch lengths affected for the topological moves. 
+maximizing the likelihood under some assumptions), and searchs bi-objective phylogenetic trees applying topological moves using the Parametric Progressive Neighbourhood (PPN) technique to minimizing the parsimony and with this maximizing the likelihood simultaneously; furthermore, with the aim of improve the likelihood, optimize all branch lengths affected for the topological moves. 
 
 H2: This strategy is a parametric combination of two techniques that optimize both
 criteria separately, for parsimony uses PPN technique applying topological
@@ -183,9 +179,10 @@ Parameters:
 optimization.method 			= h2 or h2
 optimization.method.perc 		= Percentage to apply pllRearrangeSearch or PPN technique
 
+Parameters of the PPN  function:
+
 optimization.ppn.numiterations 		= Number of iterations of PPN technique
 optimization.ppn.maxsprbestmoves 	= Limit of best moves to be applied in PPN Technique
-
 
 Parameters of the pllRearrangeSearch  function:
 
@@ -229,7 +226,7 @@ consensus_threshold = Minimal acceptable score =number of occurrence of a bipart
 6. Results
 =======================================================================================
 
-The results of MORPHY are based in the jMetalCpp output format, 
+The results of MORPHY are based in the MO-Phylogenetics output format, 
 creates two files called FUN+ExperimentID and VAR+ExperimentID. 
 The FUN file contains the data of the pareto front approximation and 
 the VAR file contains the optimized phylogenetic trees in newick format.
