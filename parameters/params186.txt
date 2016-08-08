@@ -4,7 +4,7 @@
 #Experimennt ID
 #experimentid = 25
 
-DATA= /home/cristian/mo-phylogenetics/data
+DATA= /home/cristian/MORPHY/data
 
 populationsize = 100
 maxevaluations = 1500

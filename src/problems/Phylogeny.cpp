@@ -318,7 +318,11 @@ void Phylogeny::readParameters(BppApplication *objApp){
     rateheterogeneity_model = ApplicationTools::getStringParameter("rateheterogeneity_model", objApp->getParams(), "GAMMA", "", false, false);
     
     //Sequences input File
-    SequenceFilename = ApplicationTools::getStringParameter("sequencefile", objApp->getParams(), "55.txt", "", false, false);
+    SequenceFilename = ApplicationTools::getStringParameter("sequencefile", objApp->getParams(), "", "", false, false);
+    if(SequenceFilename==""){
+            cout << "Sequences file is Requerided " << endl; exit(-1);
+    }
+
     if(!FileTools::fileExists(SequenceFilename)){
             cout << "Can't open Sequences file " << SequenceFilename << endl;		exit(-1);
     }

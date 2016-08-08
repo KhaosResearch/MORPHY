@@ -4,12 +4,12 @@
 #Experimennt ID
 experimentid = 123
 
-DATAPATH    = /home/cristian/mo-phylogenetics/data
+DATAPATH    = /home/cristian/MORPHY/data
 
 populationsize = 50
 maxevaluations = 150
 bootstrapSize	=101 
-
+	
 umbral=0.3
 intervalupdateparameters = 0 #0 No aplica, cada 500 evaluations se actualizan Modelo y Newton
 NumPreliminarResults=200

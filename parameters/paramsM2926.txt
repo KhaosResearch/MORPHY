@@ -2,18 +2,17 @@
 #                                     Metaheuristic Parameters
 # ----------------------------------------------------------------------------------------
 #Experimennt ID
-#experimentid = 25
+experimentid = 510
 
-DATA= /home/cristian/MORPHY/data
+DATAPATH    = /home/cristian/MORPHY/data
 
-populationsize = 50
-maxevaluations = 3000
-bootstrapSize	=51 
+populationsize = 100
+maxevaluations = 10000
+bootstrapSize	=100
+umbral=0.3
 
-umbral=0.15
-
+intervalupdateparameters = 200 
 NumPreliminarResults=200
-intervalupdateparameters = 200 #0 NO
 printtrace 	= true  
 printbestscores = true
 
@@ -22,82 +21,70 @@ printbestscores = true
 # ********* Selection **********
 selection.method=binarytournament
 
-
 # ********* Mutation **********
-
 #NNI, SPR, TRB
 mutation.method = NNI
 mutation.probability = 0.2
+mutation.distributionindex = 1
 
 # ----------------------------------------------------------------------------------------
 #                                     Phylogenetic Parameters
 # ----------------------------------------------------------------------------------------
 
+
 # *********** Sequences ***********
 #DNA, RNA or Protein
-alphabet=DNA 
+alphabet=Protein 
 
 # The sequence file to use (sequences must be aligned!)
-sequencefile=$(DATA)/sequences/500.txt
+sequencefile= $(DATAPATH)/sequences/M2926.clu
 
 # The alignment format:  order=sequential/interleaved type=extended/classic
-input.sequence.format=Phylip(order=sequential, type=extended, split=spaces)
+#input.sequence.format=Phylip(order=sequential, type=extended, split=spaces)
 
-#input.sequence.format=Fasta(charsbyline=100, checksequencenames=true, extended=false,strictsequencenames=true)
+input.sequence.format=Fasta(charsbyline=100, checksequencenames=true, extended=false,strictsequencenames=true)
 
 input.sequence.print=false
 
+#Sites to use:
+# all, nogap or complete (=only resolved chars)
+input.sequence.sites_to_use = all
+# Specify a maximum amount of gaps: may be an absolute number or a percentage.
+input.sequence.max_gap_allowed = 0%
+
 #***************** PLL Parameters ******************
 
-partitionmodelfile=$(DATA)/model/500.model
+partitionmodelfile = $(DATAPATH)/model/M2926.model
 
 # *********** Initial Population Trees ***********
 
 # user, random or stepwise
-init.population = user
-init.population.tree.file = $(DATA)/inputusertrees/bootstrap1000_500
+init.population = stepwise
+init.population.tree.file = $(DATAPATH)/inputusertrees/bootstrap100_M510
 init.population.tree.format = Newick
 
-# *********** Model of rate heterogeneity ***********
-
-#GAMMA CAT
-rateheterogeneity_model=GAMMA
-
-
 # ********** Substitution Model  ***********
-model = GTR+G
+model = LG
 
-model.frequences = user
-model.piA =  0.28759
-model.piC =  0.17822
-model.piG =  0.14682
-model.piT =  0.38737
-
-#GTR relative rate parameters : 
-model.AC = 1.24303
-model.AG = 4.02694
-model.AT = 0.34805
-model.CG = 1.73304
-model.CT = 3.25578
-model.GT = 1.00000
-
+model.frequences = none
+ 
 # ********** Distribution Gamma  ***********
 rate_distribution = Gamma
 rate_distribution.ncat = 4
-rate_distribution.alpha = 0.867
+rate_distribution.alpha = 1.63339
 
 # ********** Phylogenetic Optimization  ***********
 #strategies h2 y h1
 optimization.method = h2
 optimization.method.perc = 0.5
 
-optimization.ppn.numiterations = 1000
-optimization.ppn.maxsprbestmoves = 100
+optimization.ppn.numiterations = 500
+optimization.ppn.maxsprbestmoves = 200
 
 optimization.pll.percnodes = 0.4
 optimization.pll.mintranv = 1
 optimization.pll.maxtranv = 10
-optimization.pll.newton3sprbranch = false
+optimization.pll.newton3sprbranch = true
 
 # ********** Branch Lenght Optimization ***********
 bl_optimization.starting = true
@@ -109,11 +96,9 @@ bl_optimization.maxitevaluation=1000
 bl_optimization.final = true
 bl_optimization.final.maxitevaluation=1000
 
-
 # ********** Evolutionary Model Optimization ***********
-model_optimization = false
+model_optimization = true
 model_optimization.tolerance =0.001
-
 
 # ********** Consensus tree ***********
 consensus = true
@@ -121,5 +106,5 @@ consensus = true
 #Minimal acceptable score =number of occurrence of a bipartition/number of trees (0.<=threshold<=1.)
 #0 will output a fully resolved tree, 0.5 corresponds to the majority rule and 1 to the strict #consensus, but any intermediate value can be specified.
 
-consensus_threshold = 0.5
+consensus_threshold = 1
 

@@ -5,7 +5,7 @@
 #Experimennt ID
 #experimentid = 25
 
-DATA= /home/phylo/mo-phylogenetics/data
+DATA= /home/phylo/MORPHY/data
 
 populationsize = 100
 maxevaluations = 3000
