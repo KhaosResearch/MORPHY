@@ -3,7 +3,7 @@
 //  Author:
 //       Cristian Zambrano-Vega <czambrano@uteq.edu.ec>
 //
-//  Copyright (c) 2016 Antonio J. Nebro, Juan J. Durillo
+//  Copyright (C) 2017 Antonio J. Nebro, Juan J. Durillo
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published by

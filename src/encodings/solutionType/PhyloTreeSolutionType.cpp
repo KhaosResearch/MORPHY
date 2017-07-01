@@ -3,7 +3,7 @@
  * phylogenetic inference. This software integrates features 
  * of the jMetalCpp, Bio++ and PLL frameworks.
  * 
- * Copyright (C) 2016 Cristian Zambrano-Vega, Antonio J. Nebro.
+ * Copyright (C) 2017 Cristian Zambrano-Vega, Antonio J. Nebro.
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
